@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sarajevo — May 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal:        #1B5E6E;
+    --teal-mid:    #2A7A8C;
+    --teal-light:  #4A9BAA;
+    --gold:        #C9863A;
+    --gold-light:  #E8A84E;
+    --cream:       #F9F4EE;
+    --cream-dark:  #EDE5D8;
+    --ink:         #18252A;
+    --ink-mid:     #2E4550;
+    --ink-soft:    #5A7480;
+    --white:       #FFFFFF;
+    --green:       #2D6A45;
+    --purple:      #5B3E7A;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:'DM Sans',sans-serif; font-weight:300; line-height:1.7; }
+
+  /* HERO */
+  .hero {
+    background:var(--teal);
+    background-image:radial-gradient(ellipse at 20% 50%,rgba(74,155,170,.35) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(201,134,58,.2) 0%,transparent 50%);
+    color:#fff; padding:72px 40px 60px; text-align:center; position:relative; overflow:hidden;
+  }
+  .hero::before {
+    content:''; position:absolute; inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-flag { font-size:48px; margin-bottom:16px; display:block; }
+  .hero h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(52px,8vw,88px); font-weight:700; letter-spacing:-2px; line-height:1; margin-bottom:12px; }
+  .hero-sub { font-size:14px; letter-spacing:4px; text-transform:uppercase; opacity:.7; margin-bottom:8px; }
+  .hero-dates { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:22px; opacity:.85; margin-bottom:32px; }
+  .hero-tags { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+  .hero-tag { border:1px solid rgba(255,255,255,.35); border-radius:20px; padding:5px 16px; font-size:12px; letter-spacing:1px; text-transform:uppercase; opacity:.8; }
+
+  /* LAYOUT */
+  .container { max-width:900px; margin:0 auto; padding:0 24px; }
+
+  /* QUICK INFO */
+  .quick-info { background:var(--ink); color:#fff; padding:32px 40px; }
+  .quick-info-grid { max-width:900px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:24px; }
+  .qi-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--gold-light); margin-bottom:4px; }
+  .qi-value { font-size:14px; opacity:.85; line-height:1.5; }
+
+  /* SECTION */
+  .section { padding:56px 0 40px; }
+  .section-header { display:flex; align-items:center; gap:16px; margin-bottom:36px; }
+  .section-line { flex:1; height:1px; background:var(--cream-dark); }
+  .section-title { font-family:'Cormorant Garamond',serif; font-size:13px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--ink-soft); white-space:nowrap; }
+
+  /* DAY BLOCK */
+  .day-block { margin-bottom:48px; }
+  .day-label { display:inline-flex; align-items:center; gap:12px; background:var(--teal); color:#fff; padding:10px 22px; border-radius:4px 4px 0 0; }
+  .day-label-text { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:600; }
+  .day-label-sub { font-size:11px; letter-spacing:2px; text-transform:uppercase; opacity:.7; }
+
+  /* STOPS */
+  .stops { background:#fff; border:1px solid var(--cream-dark); border-radius:0 4px 4px 4px; overflow:hidden; }
+  .stop { display:grid; grid-template-columns:70px 1fr; border-bottom:1px solid var(--cream-dark); }
+  .stop:last-child { border-bottom:none; }
+  .stop-time { background:var(--cream); display:flex; align-items:flex-start; justify-content:center; padding:22px 8px 20px; font-size:12px; font-weight:500; color:var(--ink-soft); letter-spacing:.5px; border-right:1px solid var(--cream-dark); }
+  .stop-content { padding:18px 22px; }
+  .stop-name { font-family:'Cormorant Garamond',serif; font-size:19px; font-weight:600; color:var(--ink); margin-bottom:4px; }
+  .stop-desc { font-size:13px; color:var(--ink-soft); line-height:1.6; }
+  .stop-tip { margin-top:8px; font-size:12px; color:var(--green); background:#f0f7f2; border-left:2px solid var(--green); padding:5px 10px; border-radius:0 3px 3px 0; display:inline-block; }
+
+  /* MAP */
+  .map-block { margin:20px 0 0; border-radius:8px; overflow:hidden; border:1px solid var(--cream-dark); box-shadow:0 4px 20px rgba(0,0,0,.08); }
+  .map-block iframe { width:100%; height:380px; border:none; display:block; }
+  .map-caption { background:var(--ink); color:rgba(255,255,255,.6); font-size:11px; letter-spacing:1px; text-transform:uppercase; padding:8px 16px; text-align:center; }
+
+  /* NATURE NOTE */
+  .nature-note { background:linear-gradient(135deg,#1a4a2e,#2D6A45); color:#fff; border-radius:8px; padding:24px 28px; margin-bottom:24px; display:flex; gap:20px; align-items:flex-start; }
+  .nature-note-icon { font-size:32px; flex-shrink:0; }
+  .nature-note h3 { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:600; margin-bottom:6px; }
+  .nature-note p { font-size:13px; opacity:.85; line-height:1.6; }
+
+  /* FRIDAY DARK BG */
+  .friday-bg { background:var(--ink); padding:56px 0 48px; }
+  .friday-bg .section-line { background:rgba(255,255,255,.1); }
+  .friday-bg .section-title { color:var(--gold-light); }
+
+  /* PLANS */
+  .plans-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:32px; }
+  @media(max-width:680px){ .plans-grid{ grid-template-columns:1fr; } }
+  .plan-card { border-radius:8px; overflow:hidden; border:1px solid rgba(255,255,255,.1); }
+  .plan-header { padding:16px 20px; color:#fff; display:flex; justify-content:space-between; align-items:center; }
+  .plan-header.a { background:var(--green); }
+  .plan-header.b { background:var(--purple); }
+  .plan-header-title { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:700; }
+  .plan-header-badge { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; background:rgba(255,255,255,.2); padding:4px 10px; border-radius:12px; border:1px solid rgba(255,255,255,.3); }
+  .plan-stop { display:flex; border-bottom:1px solid var(--cream-dark); align-items:stretch; }
+  .plan-stop:last-child{ border-bottom:none; }
+  .plan-stop-time { min-width:58px; font-size:11px; font-weight:500; color:var(--ink-soft); background:var(--cream); display:flex; align-items:flex-start; justify-content:center; padding:16px 6px; border-right:1px solid var(--cream-dark); letter-spacing:.3px; }
+  .plan-stop-info { padding:13px 16px; background:#fff; flex:1; }
+  .plan-stop-name { font-family:'Cormorant Garamond',serif; font-size:16px; font-weight:600; color:var(--ink); margin-bottom:2px; }
+  .plan-stop-desc { font-size:12px; color:var(--ink-soft); line-height:1.5; }
+  .plan-stop-tip { margin-top:6px; font-size:11px; color:var(--green); background:#f0f7f2; border-left:2px solid var(--green); padding:3px 8px; border-radius:0 2px 2px 0; display:inline-block; }
+  .tag-sleep { font-size:10px; letter-spacing:1px; text-transform:uppercase; background:var(--teal); color:#fff; padding:2px 8px; border-radius:10px; margin-left:6px; vertical-align:middle; }
+  .tag-rec { font-size:10px; letter-spacing:1px; text-transform:uppercase; background:var(--purple); color:#fff; padding:2px 8px; border-radius:10px; margin-left:6px; vertical-align:middle; }
+
+  /* COMPARE TABLE */
+  .compare-table { width:100%; border-collapse:collapse; margin:24px 0; border-radius:8px; overflow:hidden; box-shadow:0 2px 12px rgba(0,0,0,.06); }
+  .compare-table th { padding:14px 20px; font-size:12px; letter-spacing:1.5px; text-transform:uppercase; text-align:left; background:#0e1a1f; color:#fff; font-weight:400; }
+  .compare-table th:nth-child(2){ color:#7ecca0; }
+  .compare-table th:nth-child(3){ color:#b39ddb; }
+  .compare-table td { padding:12px 20px; font-size:13px; border-bottom:1px solid var(--cream-dark); }
+  .compare-table tr:last-child td{ border-bottom:none; }
+  .compare-table tr:nth-child(even) td{ background:var(--cream); }
+  .compare-table tr:nth-child(odd) td{ background:#fff; }
+  .compare-table td:first-child{ font-weight:500; color:var(--ink-soft); font-size:12px; letter-spacing:.5px; }
+  .compare-table .good{ color:var(--green); font-weight:500; }
+  .compare-table .rec{ background:rgba(91,62,122,.06)!important; }
+
+  /* TIPS */
+  .tips-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; margin-top:24px; }
+  .tip-card { background:#fff; border:1px solid var(--cream-dark); border-radius:8px; padding:18px 20px; display:flex; gap:14px; align-items:flex-start; }
+  .tip-icon { font-size:22px; flex-shrink:0; margin-top:2px; }
+  .tip-title { font-size:12px; font-weight:500; letter-spacing:1px; text-transform:uppercase; color:var(--teal); margin-bottom:4px; }
+  .tip-text { font-size:12.5px; color:var(--ink-soft); line-height:1.6; }
+
+  /* FOOTER */
+  .footer { background:var(--ink); color:rgba(255,255,255,.5); text-align:center; padding:32px 24px; font-size:12px; letter-spacing:1px; }
+  .footer strong { color:rgba(255,255,255,.8); font-size:14px; display:block; margin-bottom:6px; }
+
+  /* ANIMATION */
+  .fade-in { opacity:0; transform:translateY(18px); animation:fadeUp .6s ease forwards; }
+  @keyframes fadeUp { to{ opacity:1; transform:translateY(0); } }
+
+  /* ── PRINT / SAVE AS PDF ─────────────────────────────────────────────── */
+  @media print {
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    @page { margin: 0; size: A4; }
+    html, body { margin: 0; padding: 0; width: 100%; }
+
+    /* Kill animations */
+    .fade-in { opacity:1 !important; transform:none !important; animation:none !important; }
+    * { box-shadow:none !important; transition:none !important; }
+
+    /* Hero */
+    .hero { background:#1B5E6E !important; padding:48px 40px 40px !important; break-after:avoid; }
+    .hero h1 { font-size:64px !important; color:#fff !important; }
+    .hero-sub, .hero-dates, .hero-flag { color:rgba(255,255,255,0.9) !important; }
+    .hero-tag { border-color:rgba(255,255,255,0.5) !important; color:#fff !important; }
+
+    /* Quick info */
+    .quick-info { background:#18252A !important; padding:24px 40px !important; }
+    .qi-label { color:#E8A84E !important; }
+    .qi-value { color:rgba(255,255,255,0.85) !important; }
+    .qi-value span { color:rgba(255,255,255,0.55) !important; }
+
+    /* Sections */
+    .section { padding:32px 0 24px !important; }
+    .section-line { background:#EDE5D8 !important; }
+
+    /* Day labels */
+    .day-label { background:#1B5E6E !important; }
+    .day-label-text, .day-label-sub { color:#fff !important; }
+
+    /* Stops */
+    .stops { border:1px solid #EDE5D8 !important; }
+    .stop { border-bottom:1px solid #EDE5D8 !important; }
+    .stop-time { background:#F9F4EE !important; color:#5A7480 !important; border-right-color:#EDE5D8 !important; }
+    .stop-content { background:#fff !important; }
+    .stop-name { color:#18252A !important; }
+    .stop-desc { color:#5A7480 !important; }
+    .stop-tip { background:#f0f7f2 !important; color:#2D6A45 !important; border-left-color:#2D6A45 !important; }
+
+    /* Nature note */
+    .nature-note { background:#2D6A45 !important; }
+    .nature-note h3, .nature-note p { color:#fff !important; }
+
+    /* Friday dark section */
+    .friday-bg { background:#18252A !important; }
+    .friday-bg p { color:rgba(255,255,255,0.55) !important; }
+    .friday-bg .section-title { color:#E8A84E !important; }
+    .friday-bg .section-line { background:rgba(255,255,255,0.1) !important; }
+
+    /* Plan cards */
+    .plan-card { border:1px solid rgba(255,255,255,0.15) !important; }
+    .plan-header.a { background:#2D6A45 !important; }
+    .plan-header.b { background:#5B3E7A !important; }
+    .plan-header-title, .plan-header-badge { color:#fff !important; }
+    .plan-stop { border-bottom:1px solid #EDE5D8 !important; }
+    .plan-stop-time { background:#F9F4EE !important; color:#5A7480 !important; border-right-color:#EDE5D8 !important; }
+    .plan-stop-info { background:#fff !important; }
+    .plan-stop-name { color:#18252A !important; }
+    .plan-stop-desc { color:#5A7480 !important; }
+    .plan-stop-tip { background:#f0f7f2 !important; color:#2D6A45 !important; }
+    .tag-sleep { background:#1B5E6E !important; color:#fff !important; }
+    .tag-rec { background:#5B3E7A !important; color:#fff !important; }
+
+    /* Compare table */
+    .compare-table th { background:#0e1a1f !important; color:#fff !important; }
+    .compare-table th:nth-child(2) { color:#7ecca0 !important; }
+    .compare-table th:nth-child(3) { color:#b39ddb !important; }
+    .compare-table tr:nth-child(even) td { background:#F9F4EE !important; }
+    .compare-table tr:nth-child(odd) td { background:#fff !important; }
+    .compare-table .rec { background:rgba(91,62,122,.08) !important; }
+    .compare-table .good { color:#2D6A45 !important; }
+
+    /* Maps */
+    .map-block { border:1px solid #EDE5D8 !important; break-inside:avoid; page-break-inside:avoid; }
+    .map-block iframe { height:300px !important; }
+    .map-caption { background:#18252A !important; color:rgba(255,255,255,0.6) !important; }
+
+    /* Tips */
+    .tips-grid { grid-template-columns:1fr 1fr !important; }
+    .tip-card { background:#fff !important; border:1px solid #EDE5D8 !important; break-inside:avoid; }
+    .tip-title { color:#1B5E6E !important; }
+    .tip-text { color:#5A7480 !important; }
+
+    /* Footer */
+    .footer { background:#18252A !important; }
+    .footer strong { color:rgba(255,255,255,0.85) !important; }
+
+    /* Page breaks */
+    .day-block { break-inside:avoid; page-break-inside:avoid; }
+    .section-header { break-after:avoid; }
+    .plans-grid { break-inside:avoid; }
+  }
+</style>
+
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-flag">&#127463;&#127462;</span>
+  <h1>Sarajevo</h1>
+  <p class="hero-sub">Travel Guide</p>
+  <p class="hero-dates">Wednesday 13 &ndash; Sunday 17 May 2026</p>
+  <div class="hero-tags">
+    <span class="hero-tag">History</span>
+    <span class="hero-tag">Ottoman Old Town</span>
+    <span class="hero-tag">War Memorials</span>
+    <span class="hero-tag">Nature</span>
+    <span class="hero-tag">Herzegovina</span>
+  </div>
+</div>
+
+<!-- QUICK INFO -->
+<div class="quick-info">
+  <div class="quick-info-grid">
+    <div class="qi-item">
+      <div class="qi-label">&#127968; Accommodation</div>
+      <div class="qi-value">Mar&#353;ala Tita 6, Sarajevo<br><span style="opacity:.55;font-size:12px">1.3km from Ba&#353;&#269;ar&#353;ija &mdash; Austro-Hungarian boulevard</span></div>
+    </div>
+    <div class="qi-item">
+      <div class="qi-label">&#128176; Currency</div>
+      <div class="qi-value">Bosnian Mark (BAM / KM)<br><span style="opacity:.55;font-size:12px">Many places cash only &mdash; carry KM!</span></div>
+    </div>
+    <div class="qi-item">
+      <div class="qi-label">&#128663; Transport</div>
+      <div class="qi-value">Car needed for day trips<br><span style="opacity:.55;font-size:12px">Tunnel, Vrelo Bosne, Mostar route</span></div>
+    </div>
+    <div class="qi-item">
+      <div class="qi-label">&#9728;&#65039; Weather (May)</div>
+      <div class="qi-value">20&ndash;25&#176;C, warm &amp; sunny<br><span style="opacity:.55;font-size:12px">Evenings cooler &mdash; light layer advised</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- SARAJEVO ITINERARY -->
+<div class="section">
+<div class="container">
+  <div class="section-header">
+    <div class="section-line"></div>
+    <span class="section-title">Sarajevo &mdash; Day by Day</span>
+    <div class="section-line"></div>
+  </div>
+
+  <!-- WEDNESDAY -->
+  <div class="day-block fade-in">
+    <div class="day-label">
+      <div>
+        <div class="day-label-text">Wednesday</div>
+        <div class="day-label-sub">Arrival &amp; Old Town</div>
+      </div>
+    </div>
+    <div class="stops">
+      <div class="stop">
+        <div class="stop-time">10:00</div>
+        <div class="stop-content">
+          <div class="stop-name">&#128332; Sebilj &amp; Ba&#353;&#269;ar&#353;ija</div>
+          <div class="stop-desc">The Ottoman heart of Sarajevo. The 18th-century wooden fountain is the city&#39;s most iconic symbol. Legend says if you drink from it, you&#39;ll always return. Wander the cobblestone alleys of the old bazaar and its small craft workshops.</div>
+        </div>
+      </div>
+      <div class="stop">
+        <div class="stop-time">11:00</div>
+        <div class="stop-content">
+          <div class="stop-name">&#127963;&#65039; Ta&#353;lihan Caravanserai</div>
+          <div class="stop-desc">Ruins of a grand Silk Road inn built in 1543 by Gazi Husrev-Bey. Walk the glass walkway above the ancient foundations and imagine centuries of traders and travellers passing through.</div>
+        </div>
+      </div>
+      <div class="stop">
+        <div class="stop-time">13:30</div>
+        <div class="stop-content">
+          <div class="stop-name">&#128293; Vje&#269;na vatra &mdash; Eternal Flame</div>
+          <div class="stop-desc">A flame burning since 1946 in memory of WWII victims. It was never extinguished even through the devastating 1992&ndash;1996 siege. A deeply moving symbol of the city&#39;s extraordinary resilience.</div>
+        </div>
+      </div>
+      <div class="stop">
+        <div class="stop-time">14:00</div>
+        <div class="stop-content">
+          <div class="stop-name">&#127751; Latin Bridge &mdash; WWI Assassination Site</div>
+          <div class="stop-desc">The exact spot where Archduke Franz Ferdinand was assassinated on 28 June 1914, triggering World War I and the deaths of 16 million people. One of the most historically significant street corners in the world.</div>
+          <div class="stop-tip">&#128161; Small museum at the north end of the bridge tells the full story</div>
+        </div>
+      </div>
+      <div class="stop">
+        <div class="stop-time">15:00</div>
+        <div class="stop-content">
+          <div class="stop-name">&#128332; Gazi Husrev-beg Mosque</div>
+          <div class="stop-desc">The largest and most beautiful mosque in Bosnia, built in 1532. Free entry outside prayer times. The courtyard with its ornate fountain is an oasis of calm in the heart of the old town.</div>
+          <div class="stop-tip">&#128161; Cover shoulders and knees. Remove shoes at the entrance.</div>
+        </div>
+      </div>
+      <div class="stop">
+        <div class="stop-time">16:00</div>
+        <div class="stop-content">
+          <div class="stop-name">&#127963;&#65039; Vije&#263;nica &mdash; City Hall</div>
+          <div class="stop-desc">The spectacular Austro-Hungarian building on the Miljacka riverbank. Burned to the ground during the 1992 siege, painstakingly rebuilt and reopened in 2014. The restored interior with its stained-glass atrium is breathtaking.</div>
+        </div>
+      </div>
+      <div class="stop">
+        <div class="stop-time">19:00</div>
+        <div class="stop-content">
+          <div class="stop-name">&#127749; Yellow Fortress &mdash; Sunset Panorama</div>
+          <div class="stop-desc">A 15-minute uphill walk from Ba&#353;&#269;ar&#353;ija through quiet neighbourhood streets. The panoramic view of Sarajevo spread across the valley at sunset is one of the most memorable sights in the Balkans.</div>
+          <div class="stop-tip">&#128161; Arrive 1 hour before sunset &mdash; gets busy but the atmosphere is magical.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-block">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m52!1m12!1m3!1d2884!2d18.428!3d43.859!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m37!3e2!4m5!1s0x4758c9b3af949e0b%3A0x16e30a2e4a00c852!2sSebilj%2C%20Sarajevo!3m2!1d43.8597!2d18.4313!4m5!1s0x4758c8c9bf9c0000%3A0x1!2sTa%C5%A1lihan%2C%20Sarajevo!3m2!1d43.8585!2d18.428!4m5!1s0x4758c8ccbedf3b99%3A0x84cf8f8cc95a15fd!2sVje%C4%8Dna%20vatra%2C%20Sarajevo!3m2!1d43.8588!2d18.4219!4m5!1s0x4758c8b6c8180001%3A0x1!2sLatin%20Bridge%2C%20Sarajevo!3m2!1d43.8572!2d18.4326!4m5!1s0x4758c9b48d37bc53%3A0xe92e73b26b8ca62b!2sGazi%20Husrev-beg%20Mosque%2C%20Sarajevo!3m2!1d43.8601!2d18.4308!4m5!1s0x4758c8b5bfd84bcb%3A0xa20ad2ce0a2eef!2sYellow%20Fortress%2C%20Sarajevo!3m2!1d43.8614!2d18.4376!5e0!3m2!1sen!2sba!4v1680000000000!5m2!1sen!2sba" style="width:100%;height:380px;border:none;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-caption">Wednesday Walking Route &mdash; Old Town &rarr; Latin Bridge &rarr; Yellow Fortress</div>
+    </div>
+  </div>
+
+  <!-- THURSDAY -->
+  <div class="day-block fade-in" style="animation-delay:.1s">
+    <div class="day-label">
+      <div>
+        <div class="day-label-text">Thursday</div>
+        <div class="day-label-sub">Siege History</div>
+      </div>
+    </div>
+    <div class="stops">
+      <div class="stop">
+        <div class="stop-time">11:00</div>
+        <div class="stop-content">
+          <div class="stop-name">&#127963;&#65039; War Childhood Museum</div>
+          <div class="stop-desc">One of the most powerful museums in Europe. The siege of Sarajevo told through 50 objects chosen by people who were children during the conflict &mdash; each with a personal testimony. Raw, human, and deeply moving. Allow at least 90 minutes.</div>
+          <div class="stop-tip">&#128161; Opens 11am. Book at warchildhood.org</div>
+        </div>
+      </div>
+      <div class="stop">
+        <div class="stop-time">15:00</div>
+        <div class="stop-content">
+          <div class="stop-name">&#128647; Tunnel of Salvation</div>
+          <div class="stop-desc">The 800-metre tunnel dug under the airport runway in 1993 that kept the besieged city alive &mdash; smuggling food, weapons and people. Now a museum with original footage, personal accounts and artefacts from the siege. Entry ~20 KM.</div>
+          <div class="stop-tip">&#128161; 20-min taxi from centre. Opens 8:30am. Cash only.</div>
+        </div>
+      </div>
+      <div class="stop">
+        <div class="stop-time">17:00</div>
+        <div class="stop-content">
+          <div class="stop-name">&#128673; Trebevi&#263; Cable Car &amp; Olympic Bobsled Track</div>
+          <div class="stop-desc">Ride the cable car up to 1,163m for panoramic city views, then walk 200m to the abandoned 1984 Winter Olympics bobsled track &mdash; now covered in murals and graffiti, reclaimed by the forest. Eerie, beautiful, and completely unlike anywhere else.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-block">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m34!1m12!1m3!1d11700!2d18.390!3d43.845!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m19!3e0!4m5!1s0x4758c8cbce7cebbf%3A0xf84cf46be4630eed!2sWar%20Childhood%20Museum%2C%20Sarajevo!3m2!1d43.8619!2d18.4284!4m5!1s0x4758c9f975860455%3A0xcee7af8d75d8e791!2sTunnel%20of%20Salvation%2C%20Sarajevo!3m2!1d43.8198!2d18.3373!4m5!1s0x4758c8e0c1000001%3A0x1!2sTrebevi%C4%87%20Cable%20Car%2C%20Sarajevo!3m2!1d43.852!2d18.441!5e0!3m2!1sen!2sba!4v1680000001000!5m2!1sen!2sba" style="width:100%;height:380px;border:none;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-caption">Thursday &mdash; War Childhood Museum &rarr; Tunnel of Salvation &rarr; Trebevi&#263;</div>
+    </div>
+  </div>
+
+  <!-- NATURE NOTE -->
+  <div class="nature-note fade-in" style="animation-delay:.15s">
+    <div class="nature-note-icon">&#127807;</div>
+    <div>
+      <h3>Optional &mdash; Nature (Thursday morning or anytime)</h3>
+      <p><strong>Vrelo Bosne</strong> (Bosna Spring) &mdash; a stunning natural park 30 min from the centre by tram. Crystal-clear springs, swans, and a horse-drawn carriage along a tree-lined path. Free entry.<br>
+      <strong>Skakavac Waterfall</strong> &mdash; a 75m cascade north of the city. 9km circular trail, ~3&ndash;4 hrs. Free entry. Wear good shoes.</p>
+    </div>
+  </div>
+
+  <!-- SATURDAY -->
+  <div class="day-block fade-in" style="animation-delay:.2s">
+    <div class="day-label" style="background:var(--teal-mid)">
+      <div>
+        <div class="day-label-text">Saturday afternoon</div>
+        <div class="day-label-sub">Return from Mostar</div>
+      </div>
+    </div>
+    <div class="stops">
+      <div class="stop">
+        <div class="stop-time">~15:00</div>
+        <div class="stop-content">
+          <div class="stop-name">&#128663; Return from Mostar</div>
+          <div class="stop-desc">~2.5 hour scenic drive back through the Neretva valley. Arrive in time for a relaxed final evening in Sarajevo.</div>
+        </div>
+      </div>
+      <div class="stop">
+        <div class="stop-time">17:30</div>
+        <div class="stop-content">
+          <div class="stop-name">&#128308; Sarajevo Roses</div>
+          <div class="stop-desc">Scattered across the city&#39;s pavements &mdash; craters left by mortar shells that killed civilians during the siege, now filled with red resin. A haunting, city-wide memorial you&#39;ll notice as you walk the streets.</div>
+        </div>
+      </div>
+      <div class="stop">
+        <div class="stop-time">18:30</div>
+        <div class="stop-content">
+          <div class="stop-name">&#127963;&#65039; Museum of Crimes Against Humanity 1992&ndash;95</div>
+          <div class="stop-desc">Raw and direct documentation of the siege through photographs, testimonies, and evidence. More confrontational than the War Childhood Museum. Not for everyone, but important and deeply impactful.</div>
+          <div class="stop-tip">&#128161; Check opening hours in advance</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- FRIDAY SECTION -->
+<div class="friday-bg">
+<div class="container">
+  <div class="section-header">
+    <div class="section-line"></div>
+    <span class="section-title">Friday Day Trip &mdash; Herzegovina</span>
+    <div class="section-line"></div>
+  </div>
+
+  <p style="color:rgba(255,255,255,.5);font-size:13px;margin-bottom:32px;max-width:560px">
+    Depart Sarajevo at 7:30am. Both plans end in Mostar for the night. Plan B adds Po&#269;itelj &mdash; highly recommended if you have the energy.
+  </p>
+
+  <!-- PLANS GRID -->
+  <div class="plans-grid">
+
+    <!-- PLAN A -->
+    <div class="plan-card">
+      <div class="plan-header a">
+        <div class="plan-header-title">Plan A</div>
+        <div class="plan-header-badge">3 stops</div>
+      </div>
+      <div>
+        <div class="plan-stop">
+          <div class="plan-stop-time">07:30</div>
+          <div class="plan-stop-info">
+            <div class="plan-stop-name">&#128663; Depart Sarajevo</div>
+            <div class="plan-stop-desc">Drive south through the Neretva valley. ~2.5 hrs.</div>
+          </div>
+        </div>
+        <div class="plan-stop">
+          <div class="plan-stop-time">10:00</div>
+          <div class="plan-stop-info">
+            <div class="plan-stop-name">&#128167; Kravica Waterfall</div>
+            <div class="plan-stop-desc">25m horseshoe waterfall dropping into a turquoise pool. Swimming possible May&ndash;Sept. 2 hrs here.</div>
+            <div class="plan-stop-tip">&#128161; Entry 20 KM/person, cash only. Arrive early.</div>
+          </div>
+        </div>
+        <div class="plan-stop">
+          <div class="plan-stop-time">12:30</div>
+          <div class="plan-stop-info">
+            <div class="plan-stop-name">&#9962; Me&#273;ugorje</div>
+            <div class="plan-stop-desc">One of the most visited Catholic pilgrimage sites in Europe. St James Church, Apparition Hill. ~1.5 hrs.</div>
+          </div>
+        </div>
+        <div class="plan-stop">
+          <div class="plan-stop-time">14:30</div>
+          <div class="plan-stop-info">
+            <div class="plan-stop-name">&#127751; Mostar <span class="tag-sleep">Sleep here</span></div>
+            <div class="plan-stop-desc">Stari Most (16th-c. Ottoman bridge, UNESCO), Kujund&#382;iluk bazaar, bridge divers in the afternoon.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PLAN B -->
+    <div class="plan-card">
+      <div class="plan-header b">
+        <div class="plan-header-title">Plan B <span class="tag-rec">Recommended</span></div>
+        <div class="plan-header-badge">4 stops</div>
+      </div>
+      <div>
+        <div class="plan-stop">
+          <div class="plan-stop-time">07:30</div>
+          <div class="plan-stop-info">
+            <div class="plan-stop-name">&#128663; Depart Sarajevo</div>
+            <div class="plan-stop-desc">Same early start. ~2.5 hrs to Kravice.</div>
+          </div>
+        </div>
+        <div class="plan-stop">
+          <div class="plan-stop-time">10:00</div>
+          <div class="plan-stop-info">
+            <div class="plan-stop-name">&#128167; Kravica Waterfall</div>
+            <div class="plan-stop-desc">1.5 hrs &mdash; slightly shorter to fit Po&#269;itelj. Still ample time to swim and explore.</div>
+            <div class="plan-stop-tip">&#128161; Entry 20 KM/person, cash only.</div>
+          </div>
+        </div>
+        <div class="plan-stop">
+          <div class="plan-stop-time">11:45</div>
+          <div class="plan-stop-info">
+            <div class="plan-stop-name">&#127984;&#65039; Po&#269;itelj Fortress</div>
+            <div class="plan-stop-desc">Medieval Ottoman village perched above the Neretva. Cobblestone alleys, mosque, clock tower, and breathtaking views from the citadel. &#11088; 4.8</div>
+            <div class="plan-stop-tip">&#128161; Buy pomegranate juice from vendors at the bottom. Bring a hat &mdash; steep climb.</div>
+          </div>
+        </div>
+        <div class="plan-stop">
+          <div class="plan-stop-time">13:15</div>
+          <div class="plan-stop-info">
+            <div class="plan-stop-name">&#9962; Me&#273;ugorje</div>
+            <div class="plan-stop-desc">Shorter visit ~1 hr. Walk the main street and St James Church.</div>
+          </div>
+        </div>
+        <div class="plan-stop">
+          <div class="plan-stop-time">15:00</div>
+          <div class="plan-stop-info">
+            <div class="plan-stop-name">&#127751; Mostar <span class="tag-sleep">Sleep here</span></div>
+            <div class="plan-stop-desc">More afternoon time than Plan A. Old Bridge, bazaar, bridge divers, dinner by the Neretva.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- COMPARE TABLE -->
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Plan A</th>
+        <th>Plan B &#11088;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Kravice time</td><td>2 hours</td><td>1.5 hours</td></tr>
+      <tr><td>Po&#269;itelj</td><td style="color:var(--ink-soft)">&#10007; skipped</td><td class="good rec">&#10003; ~1 hour</td></tr>
+      <tr><td>Me&#273;ugorje time</td><td>~1.5 hours</td><td style="color:var(--ink-soft)">~1 hour</td></tr>
+      <tr><td>Mostar arrival</td><td>~14:30</td><td class="good rec">~15:00</td></tr>
+      <tr><td>Total driving</td><td>~3.5 hrs</td><td style="color:var(--ink-soft)">~4 hrs</td></tr>
+      <tr><td>Best for</td><td>Pilgrimage focus</td><td class="good rec">Scenery &amp; variety</td></tr>
+    </tbody>
+  </table>
+
+  <!-- FRIDAY MAP -->
+  <div class="map-block" style="border-color:rgba(255,255,255,.1);margin-top:8px">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m46!1m12!1m3!1d400000!2d17.9!3d43.35!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m31!3e0!4m5!1s0x4758c8d8736c0001%3A0x1!2sSarajevo!3m2!1d43.8563!2d18.4132!4m5!1s0x134a82a60c6c4eab%3A0x1!2sKravica%20Waterfall!3m2!1d43.156!2d17.6081!4m5!1s0x134a7b6c00000001%3A0x1!2sPo%C4%8Ditelj%2C%20Bosnia!3m2!1d43.1346!2d17.7338!4m5!1s0x134a6b2f00000001%3A0x1!2sMe%C4%91ugorje!3m2!1d43.2009!2d17.663!4m5!1s0x134a820686064b49%3A0xb5386b32fd2fd8a9!2sStari%20Most%2C%20Mostar!3m2!1d43.3373!2d17.8151!5e0!3m2!1sen!2sba!4v1680000002000!5m2!1sen!2sba" style="width:100%;height:380px;border:none;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <div class="map-caption">Friday Route &mdash; Sarajevo &rarr; Kravice &rarr; Po&#269;itelj (Plan B) &rarr; Me&#273;ugorje &rarr; Mostar</div>
+  </div>
+
+  <!-- MOSTAR MAP -->
+  <div class="map-block" style="border-color:rgba(255,255,255,.1);margin-top:16px">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5726!2d17.808!3d43.338!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x134a820686064b49%3A0xb5386b32fd2fd8a9!2sStari%20Most%2C%20Mostar!5e0!3m2!1sen!2sba!4v1680000003000!5m2!1sen!2sba" style="width:100%;height:380px;border:none;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <div class="map-caption">Mostar &mdash; Stari Most (Old Bridge) &amp; Old Town</div>
+  </div>
+
+</div>
+</div>
+
+<!-- PRACTICAL TIPS -->
+<div class="section">
+<div class="container">
+  <div class="section-header">
+    <div class="section-line"></div>
+    <span class="section-title">Practical Tips</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="tips-grid">
+    <div class="tip-card">
+      <div class="tip-icon">&#128181;</div>
+      <div>
+        <div class="tip-title">Cash is essential</div>
+        <div class="tip-text">Always carry Bosnian Marks (KM). Kravice, Tunnel of Salvation, Po&#269;itelj, and many museums are cash only. Get KM at an ATM on arrival.</div>
+      </div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">&#128332;</div>
+      <div>
+        <div class="tip-title">Mosques</div>
+        <div class="tip-text">Cover shoulders and knees. Women cover hair. Remove shoes at the entrance. Free entry outside prayer times at most mosques.</div>
+      </div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">&#128673;</div>
+      <div>
+        <div class="tip-title">Trebevi&#263; cable car</div>
+        <div class="tip-text">Check current operating hours before going. The Olympic bobsled track is 200m from the top station &mdash; surreal abandoned history overgrown with nature.</div>
+      </div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">&#127984;&#65039;</div>
+      <div>
+        <div class="tip-title">Po&#269;itelj climb</div>
+        <div class="tip-text">Wear comfortable shoes &mdash; the cobblestone path is steep and exposed in May sun. Bring water. The views from the top over the Neretva are worth every step.</div>
+      </div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">&#128167;</div>
+      <div>
+        <div class="tip-title">Kravice waterfall</div>
+        <div class="tip-text">Entry 20 KM/person. Parking 6 KM/day. Changing rooms on site. Go before 11am to avoid tour bus crowds. Swimming possible May&ndash;September.</div>
+      </div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">&#128176;</div>
+      <div>
+        <div class="tip-title">Museum of Crimes</div>
+        <div class="tip-text">The War Childhood Museum (Thu) and the Museum of Crimes (Sat) cover the same war very differently. Both are worth seeing &mdash; plan for 1.5 hrs each.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <strong>&#127463;&#127462; Have a wonderful trip &mdash; Sarajevo will surprise you.</strong>
+  May 2026 &middot; Sarajevo &amp; Herzegovina
+</div>
+
+
+</body>
+</html>
