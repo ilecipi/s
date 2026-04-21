@@ -227,13 +227,104 @@
     .section-header { break-after:avoid; }
     .plans-grid { break-inside:avoid; }
   }
+
+  /* ── NAV BAR ── */
+  .navbar {
+    position: fixed; top: 0; left: 0; right: 0;
+    background: rgba(24,37,42,0.97);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex; justify-content: center;
+    gap: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .navbar a {
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 14px 20px;
+    transition: color 0.15s;
+    white-space: nowrap;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    border-bottom: 2px solid transparent;
+  }
+  .navbar a:hover { color: rgba(255,255,255,0.85); }
+  .navbar a.active { color: var(--gold-light); border-bottom-color: var(--gold); }
+  body { padding-top: 43px; }
+
+  /* ── COSTS ── */
+  .costs-header {
+    background: var(--teal);
+    background-image: radial-gradient(ellipse at 80% 50%, rgba(74,155,170,.3) 0%, transparent 60%);
+    color: #fff; padding: 10px 22px; border-radius: 4px 4px 0 0;
+    display: inline-flex; align-items: baseline; gap: 10px;
+  }
+  .costs-header-text { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; }
+  .costs-header-sub  { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; opacity: .7; }
+
+  .costs-table { width: 100%; background: #fff; border: 1px solid var(--cream-dark); border-radius: 0 4px 4px 4px; overflow: hidden; border-collapse: collapse; }
+  .costs-table td { padding: 14px 20px; border-bottom: 1px solid var(--cream-dark); font-size: 13px; vertical-align: top; }
+  .costs-table tr:last-child td { border-bottom: none; }
+  .costs-table tr:nth-child(even) td { background: var(--cream); }
+  .costs-table .ct-name  { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 600; color: var(--ink); line-height: 1.2; }
+  .costs-table .ct-detail { font-size: 12px; color: var(--ink-soft); margin-top: 2px; line-height: 1.5; }
+  .costs-table .ct-amount { text-align: right; white-space: nowrap; }
+  .costs-table .ct-total  { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: var(--ink); }
+  .costs-table .ct-pp     { font-size: 11px; color: var(--ink-soft); }
+  .costs-table .ct-tbc    { color: var(--gold); font-weight: 500; font-size: 13px; }
+
+  .costs-total-row { background: var(--ink) !important; }
+  .costs-total-row td { color: #fff; border-bottom: none !important; padding: 16px 20px; }
+  .costs-total-row .ct-name   { color: rgba(255,255,255,.65); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; font-family: 'DM Sans', sans-serif; font-weight: 400; }
+  .costs-total-row .ct-total  { color: var(--gold-light); font-size: 22px; }
+  .costs-total-row .ct-pp     { color: rgba(255,255,255,.45); }
+
+  .costs-note { margin-top: 10px; font-size: 12px; color: var(--ink-soft); line-height: 1.6; background: #fff; border: 1px solid var(--cream-dark); border-radius: 4px; padding: 12px 16px; }
+
+  /* ── PRINT ── */
+  @media print {
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    @page { margin: 0; size: A4; }
+    .navbar { display: none !important; }
+    body { padding-top: 0 !important; }
+    .hero { background: #1B5E6E !important; }
+    .quick-info { background: #18252A !important; }
+    .day-label { background: #1B5E6E !important; }
+    .friday-bg { background: #18252A !important; }
+    .plan-header.a { background: #2D6A45 !important; }
+    .plan-header.b { background: #5B3E7A !important; }
+    .nature-note { background: #2D6A45 !important; }
+    .map-caption { background: #18252A !important; }
+    .compare-table th { background: #0e1a1f !important; }
+    .footer { background: #18252A !important; }
+    .costs-header { background: #1B5E6E !important; }
+    .costs-total-row { background: #18252A !important; }
+    .stop-tip, .plan-stop-tip { background: #f0f7f2 !important; }
+    .compare-table tr:nth-child(even) td { background: #F9F4EE !important; }
+    .fade-in { opacity: 1 !important; transform: none !important; animation: none !important; }
+    * { box-shadow: none !important; }
+    .day-block, .plan-card, .tip-card { break-inside: avoid; }
+    .map-block iframe { height: 280px !important; }
+  }
+
 </style>
 
 </head>
 <body>
 
+<nav class="navbar">
+  <a href="#top">Home</a>
+  <a href="#sarajevo">Sarajevo</a>
+  <a href="#friday">Friday</a>
+  <a href="#costs">Costs</a>
+  <a href="#tips">Tips</a>
+</nav>
+
+
 <!-- HERO -->
-<div class="hero">
+<div class="hero" id="top">
   <span class="hero-flag">&#127463;&#127462;</span>
   <h1>Sarajevo</h1>
   <p class="hero-sub">Travel Guide</p>
@@ -278,7 +369,8 @@
     <div class="section-line"></div>
   </div>
 
-  <!-- WEDNESDAY -->
+  <div id="sarajevo"></div>
+<!-- WEDNESDAY -->
   <div class="day-block fade-in">
     <div class="day-label">
       <div>
@@ -434,6 +526,7 @@
 </div>
 </div>
 
+<div id="friday"></div>
 <!-- FRIDAY SECTION -->
 <div class="friday-bg">
 <div class="container">
@@ -572,6 +665,78 @@
 </div>
 </div>
 
+<div id="costs" class="section">
+<div class="container">
+  <div class="section-header">
+    <div class="section-line"></div>
+    <span class="section-title">Trip Costs</span>
+    <div class="section-line"></div>
+  </div>
+
+  <!-- ACCOMMODATION -->
+  <div class="day-block">
+    <div class="costs-header">
+      <span class="costs-header-text">Accommodation</span>
+      <span class="costs-header-sub">Booked &amp; confirmed</span>
+    </div>
+    <table class="costs-table">
+      <tr>
+        <td>
+          <div class="ct-name">&#127968; Sarajevo &mdash; Maršala Tita 6</div>
+          <div class="ct-detail">Hosted by Faris &middot; Wed 13 May 15:00 &rarr; Sun 17 May 11:00 &middot; 4 nights</div>
+        </td>
+        <td class="ct-amount">
+          <div class="ct-total">Fr. 493.35</div>
+          <div class="ct-pp">Fr. 98.67 / person</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="ct-name">&#127968; Mostar &mdash; Apartments ABC</div>
+          <div class="ct-detail">15&ndash;16 May &middot; 1 night &middot; Confirmed &#10003;</div>
+        </td>
+        <td class="ct-amount">
+          <div class="ct-total">&euro;169.85</div>
+          <div class="ct-pp">&euro;33.97 / person</div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- TRANSPORT -->
+  <div class="day-block">
+    <div class="costs-header">
+      <span class="costs-header-text">Transport</span>
+      <span class="costs-header-sub">To be confirmed</span>
+    </div>
+    <table class="costs-table">
+      <tr>
+        <td>
+          <div class="ct-name">&#128663; Car Rental</div>
+          <div class="ct-detail">Needed for: Tunnel of Salvation, Vrelo Bosne, Kravice, Po&#269;itelj, Me&#273;ugorje, Mostar route</div>
+        </td>
+        <td class="ct-amount">
+          <div class="ct-tbc">TBC</div>
+        </td>
+      </tr>
+      <!-- TOTAL -->
+      <tr class="costs-total-row">
+        <td>
+          <div class="ct-name">Per person &mdash; confirmed so far</div>
+        </td>
+        <td class="ct-amount">
+          <div class="ct-total">~&euro;133</div>
+          <div class="ct-pp">Fr.98.67 + &euro;33.97 &middot; excl. car &middot; 5 people</div>
+        </td>
+      </tr>
+    </table>
+    <div class="costs-note">&#9432;&nbsp; Sarajevo Airbnb paid in CHF (Fr.&nbsp;493.35 &divide; 5 = <strong>Fr.&nbsp;98.67&nbsp;pp</strong>). Mostar paid in EUR (&euro;169.85 &divide; 5 = <strong>&euro;33.97&nbsp;pp</strong>). Car rental will be added once confirmed and split equally between 5.</div>
+  </div>
+
+</div>
+</div>
+
+<div id="tips"></div>
 <!-- PRACTICAL TIPS -->
 <div class="section">
 <div class="container">
@@ -633,6 +798,26 @@
   May 2026 &middot; Sarajevo &amp; Herzegovina
 </div>
 
+
+
+<script>
+  const navLinks = document.querySelectorAll('.navbar a');
+  const anchors = ['top','sarajevo','friday','costs','tips']
+    .map(id => ({ id, el: document.getElementById(id) }))
+    .filter(s => s.el);
+
+  function updateNav() {
+    let current = anchors[0].id;
+    anchors.forEach(s => {
+      if (window.scrollY >= s.el.offsetTop - 60) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  }
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+</script>
 
 </body>
 </html>
