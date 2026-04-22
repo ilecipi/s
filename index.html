@@ -413,6 +413,65 @@ body {
 .book-row.done .book-row-label { color: var(--label2); }
 .book-row.todo .book-row-label { color: var(--label); font-weight: 500; }
 
+/* FLIGHTS */
+.flights-wrap { max-width: 760px; margin: 12px auto 0; padding: 0 20px; }
+.flights-card {
+  background: var(--glass);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 0.5px solid var(--glass-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.flights-header {
+  padding: 9px 18px;
+  border-bottom: 0.5px solid var(--separator);
+  font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase;
+  color: var(--label3);
+  display: flex; align-items: center; gap: 8px; justify-content: space-between;
+}
+.flights-header-confirmed { color: var(--green-dark); font-weight: 600; font-size: 10px; letter-spacing: 0.6px; }
+.flights-grid { display: grid; grid-template-columns: 1fr 1fr; }
+@media (max-width: 620px) { .flights-grid { grid-template-columns: 1fr; } }
+.flight { display: flex; gap: 14px; padding: 14px 18px; border-right: 0.5px solid var(--separator); }
+.flight:last-child { border-right: none; }
+@media (max-width: 620px) {
+  .flight { border-right: none; border-bottom: 0.5px solid var(--separator); }
+  .flight:last-child { border-bottom: none; }
+}
+.flight-tail {
+  width: 30px; height: 34px; flex-shrink: 0;
+  background: #D40000;
+  border-radius: 4px 10px 4px 4px;
+  position: relative;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.flight-tail::before, .flight-tail::after {
+  content: ''; position: absolute; background: #fff;
+}
+.flight-tail::before {
+  left: 50%; top: 28%;
+  width: 4px; height: 44%;
+  transform: translateX(-50%);
+  border-radius: 1px;
+}
+.flight-tail::after {
+  top: 50%; left: 50%;
+  width: 14px; height: 4px;
+  transform: translate(-50%, -50%);
+  border-radius: 1px;
+}
+.flight-body { flex: 1; min-width: 0; }
+.flight-route {
+  font-size: 14px; font-weight: 600; color: var(--label);
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.flight-route-arrow { color: var(--teal); font-size: 13px; font-weight: 400; }
+.flight-codes { font-size: 11px; font-weight: 500; color: var(--label3); letter-spacing: 0.3px; }
+.flight-time { font-size: 13px; color: var(--label2); margin-top: 3px; font-variant-numeric: tabular-nums; }
+.flight-meta { font-size: 11px; color: var(--label3); margin-top: 3px; }
+.flight-meta strong { color: var(--label2); font-weight: 600; }
+
 /* DAY HEADER */
 .day-header {
   background: rgba(255,255,255,0.4);
@@ -508,10 +567,11 @@ body {
   .plan-card-header.b { background: #5856D6 !important; }
   .cost-total-card { background: #0A7EA4 !important; }
   .day-tag { background: var(--teal) !important; }
-  .grouped-list, .costs-card, .tip-card, .info-card, .plan-rows, .overview-card, .food-cat, .day-header { background: #fff !important; }
+  .grouped-list, .costs-card, .tip-card, .info-card, .plan-rows, .overview-card, .food-cat, .day-header, .flights-card { background: #fff !important; }
   .book-card-inner { background: #FFF5E6 !important; }
+  .flight-tail { background: #D40000 !important; }
   .map-wrap iframe { height: 220px !important; }
-  .day-block, .plan-card, .tip-card, .food-cat, .overview-card, .book-card { break-inside: avoid; }
+  .day-block, .plan-card, .tip-card, .food-cat, .overview-card, .book-card, .flights-card { break-inside: avoid; }
   .maps-link { display: none !important; }
 }
 </style>
@@ -577,6 +637,34 @@ body {
   </div>
 </div>
 
+<!-- FLIGHTS -->
+<div class="flights-wrap">
+  <div class="flights-card">
+    <div class="flights-header">
+      <span>&#9992;&#65039; Flights &middot; Swiss</span>
+      <span class="flights-header-confirmed">&#10003; Confirmed</span>
+    </div>
+    <div class="flights-grid">
+      <div class="flight">
+        <div class="flight-tail" aria-hidden="true"></div>
+        <div class="flight-body">
+          <div class="flight-route">ZRH <span class="flight-route-arrow">&rarr;</span> SJJ <span class="flight-codes">LX&nbsp;1450</span></div>
+          <div class="flight-time">Wed 13 May &middot; 06:50 &rarr; 08:25</div>
+          <div class="flight-meta"><strong>Direct</strong> &middot; 1h 35m</div>
+        </div>
+      </div>
+      <div class="flight">
+        <div class="flight-tail" aria-hidden="true"></div>
+        <div class="flight-body">
+          <div class="flight-route">SJJ <span class="flight-route-arrow">&rarr;</span> ZRH <span class="flight-codes">LX&nbsp;1451</span></div>
+          <div class="flight-time">Sun 17 May &middot; 09:25 &rarr; 11:10</div>
+          <div class="flight-meta"><strong>Direct</strong> &middot; 1h 45m</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- STILL TO BOOK -->
 <div class="book-card">
   <div class="book-card-inner">
@@ -616,6 +704,7 @@ body {
       <div class="day-summary">Land, drop bags, walk Ba&#353;&#269;ar&#353;ija end-to-end, catch the sunset from Yellow Fortress.</div>
     </div>
     <div class="grouped-list attached">
+      <div class="list-row"><div class="list-row-time">08:25</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#9992;&#65039; Land SJJ &middot; LX 1450</div><div class="list-row-desc">Clear passport, pick up rental car, ~20 min drive into the centre. Drop bags early with Faris (check-in is 15:00 but left-luggage is usually fine).</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Sarajevo+International+Airport+SJJ">Open in Maps &#8599;</a></div></div>
       <div class="list-row"><div class="list-row-time">10:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#128332; Sebilj &amp; Ba&#353;&#269;ar&#353;ija</div><div class="list-row-desc">The Ottoman heart of Sarajevo. The 18th-century wooden fountain is the city&rsquo;s most iconic symbol &mdash; legend says if you drink from it, you&rsquo;ll always return.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Sebilj+Sarajevo">Open in Maps &#8599;</a></div></div>
       <div class="list-row"><div class="list-row-time">11:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#127963;&#65039; Ta&#353;lihan Caravanserai</div><div class="list-row-desc">Ruins of a grand Silk Road inn built in 1543. Walk the glass walkway above the ancient foundations.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Taslihan+Sarajevo">Open in Maps &#8599;</a></div></div>
       <div class="list-row"><div class="list-row-time">13:30</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#128293; Eternal Flame &mdash; Vje&#269;na vatra</div><div class="list-row-desc">Burning since 1946 in memory of WWII victims. Never extinguished even through the 1990s siege.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Vjecna+Vatra+Sarajevo">Open in Maps &#8599;</a></div></div>
@@ -682,17 +771,18 @@ body {
   <div class="day-block" id="day-sun">
     <div class="day-tag" style="background:var(--gold)"><span class="day-tag-name">Sunday 17 May</span><span class="day-tag-sep"></span><span class="day-tag-sub">Departure</span></div>
     <div class="day-header">
-      <div class="day-meta-item"><span class="day-meta-icon">&#127775;</span>Theme<strong>Slow morning, goodbye</strong></div>
-      <div class="day-meta-item"><span class="day-meta-icon">&#127774;</span>Weather<strong>~22&deg;C</strong></div>
-      <div class="day-meta-item"><span class="day-meta-icon">&#128336;</span>Check-out<strong>By 11:00</strong></div>
-      <div class="day-meta-item"><span class="day-meta-icon">&#9992;&#65039;</span>Airport<strong>SJJ &middot; 15 min from centre</strong></div>
-      <div class="day-summary">One last Bosnian coffee, drink from Sebilj (the legend says you&rsquo;ll return), return the car, fly out.</div>
+      <div class="day-meta-item"><span class="day-meta-icon">&#127775;</span>Theme<strong>Early departure</strong></div>
+      <div class="day-meta-item"><span class="day-meta-icon">&#9992;&#65039;</span>Flight<strong>LX 1451 &middot; 09:25 SJJ &rarr; ZRH</strong></div>
+      <div class="day-meta-item"><span class="day-meta-icon">&#128336;</span>At airport by<strong>07:30</strong></div>
+      <div class="day-meta-item"><span class="day-meta-icon">&#128663;</span>SJJ from centre<strong>~20 min</strong></div>
+      <div class="day-summary">09:25 flight means an early start &mdash; save the Sebilj &amp; D&#382;irlo ritual for Saturday evening or grab coffee at the airport.</div>
     </div>
     <div class="grouped-list attached">
-      <div class="list-row"><div class="list-row-time">09:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#9749; Bosnian coffee at D&#382;irlo</div><div class="list-row-desc">Tiny corner kafana in Ba&#353;&#269;ar&#353;ija. The full Bosnian coffee ritual: fin&#273;an, rahat lokum, sugar cube on the tongue.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Cajdzinica+Dzirlo+Sarajevo">Open in Maps &#8599;</a></div></div>
-      <div class="list-row"><div class="list-row-time">10:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#128332; One last sip at Sebilj</div><div class="list-row-desc">Drink from the fountain &mdash; legend says you&rsquo;ll come back to Sarajevo.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Sebilj+Sarajevo">Open in Maps &#8599;</a></div></div>
-      <div class="list-row"><div class="list-row-time">11:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#127960; Check out &mdash; Mar&#353;ala Tita 6</div><div class="list-row-desc">Leave keys with Faris. Load the car.</div></div></div>
-      <div class="list-row"><div class="list-row-time">12:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#128663; Car return &amp; Sarajevo airport (SJJ)</div><div class="list-row-desc">Airport is 15 min from the centre. Drop the car first (rental desks at SJJ), then check in.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Sarajevo+International+Airport+SJJ">Open in Maps &#8599;</a></div></div>
+      <div class="list-row"><div class="list-row-time">06:30</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#9200; Wake &amp; pack</div><div class="list-row-desc">Quick shower, final packing. Nothing open at this hour &mdash; eat at the airport.</div></div></div>
+      <div class="list-row"><div class="list-row-time">07:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#127960; Check out &mdash; Mar&#353;ala Tita 6</div><div class="list-row-desc">Leave keys with Faris (or as agreed). Load the car.</div></div></div>
+      <div class="list-row"><div class="list-row-time">07:15</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#128663; Drive to SJJ &amp; return car</div><div class="list-row-desc">~20 min drive. Rental return desks are at the airport. Allow 15 min for the handover.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Sarajevo+International+Airport+SJJ">Open in Maps &#8599;</a></div></div>
+      <div class="list-row"><div class="list-row-time">07:45</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#128719; Check in &amp; security</div><div class="list-row-desc">SJJ is small and usually fast. Coffee &amp; a bite airside before boarding.</div></div></div>
+      <div class="list-row"><div class="list-row-time">09:25</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#9992;&#65039; LX 1451 &mdash; SJJ &rarr; ZRH</div><div class="list-row-desc">Direct Swiss flight, 1h 45m. Lands Z&uuml;rich 11:10.</div></div></div>
     </div>
   </div>
 </div>
