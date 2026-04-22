@@ -137,7 +137,9 @@ body {
 
 /* HERO */
 .hero {
-  background: linear-gradient(160deg, #0A5C70 0%, #0A7EA4 45%, #1A6B5A 100%);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cpolygon points='28,3 52,15 52,41 28,53 4,41 4,15' fill='none' stroke='white' stroke-width='0.6' opacity='0.18'/%3E%3Cpolygon points='28,10 46,20 46,36 28,46 10,36 10,20' fill='none' stroke='white' stroke-width='0.4' opacity='0.10'/%3E%3Ccircle cx='28' cy='28' r='4.5' fill='none' stroke='white' stroke-width='0.5' opacity='0.15'/%3E%3Cline x1='28' y1='3' x2='28' y2='10' stroke='white' stroke-width='0.4' opacity='0.12'/%3E%3Cline x1='28' y1='46' x2='28' y2='53' stroke='white' stroke-width='0.4' opacity='0.12'/%3E%3Cline x1='4' y1='15' x2='10' y2='20' stroke='white' stroke-width='0.4' opacity='0.12'/%3E%3Cline x1='46' y1='36' x2='52' y2='41' stroke='white' stroke-width='0.4' opacity='0.12'/%3E%3Cline x1='52' y1='15' x2='46' y2='20' stroke='white' stroke-width='0.4' opacity='0.12'/%3E%3Cline x1='10' y1='36' x2='4' y2='41' stroke='white' stroke-width='0.4' opacity='0.12'/%3E%3C/svg%3E") center/56px 56px repeat,
+    linear-gradient(160deg, #0A5C70 0%, #0A7EA4 45%, #1A6B5A 100%);
   padding: 56px 24px 48px; text-align: center; position: relative; overflow: hidden;
 }
 .hero::before {
@@ -556,6 +558,40 @@ body {
 .food-item .maps-link { margin-top: 6px; }
 
 /* PRINT */
+/* MOBILE RESPONSIVE FIXES */
+@media (max-width: 440px) {
+  /* Overview stats: 5-col → 3-col, numbers smaller */
+  .overview-stats { grid-template-columns: repeat(3, 1fr); }
+  .overview-stat-value { font-size: 20px; }
+  .overview-stat-label { font-size: 8px; }
+  /* Day chips: less min-width */
+  .day-chip { min-width: 80px; }
+  .day-chip-day { font-size: 9px; }
+  .day-chip-theme { font-size: 11px; }
+}
+@media (max-width: 480px) {
+  /* Timeline time column: narrower */
+  .list-row-time { min-width: 42px; font-size: 10px; padding: 14px 6px 14px 12px; }
+  /* Day header: tighter wrap */
+  .day-header { gap: 8px 10px; padding: 10px 14px; }
+  .day-meta-item { font-size: 11px; }
+  .day-summary { font-size: 14px; }
+  /* Info cards: less padding */
+  .info-card { padding: 10px 12px; }
+  .info-card-value { font-size: 12px; }
+  /* Food */
+  .food-col-title { font-size: 18px; }
+  .food-item-name { font-size: 13px; }
+  /* Costs */
+  .cost-row-name { font-size: 13px; }
+  .cost-row-amount { font-size: 14px; }
+  /* Hero pills wrap cleaner */
+  .hero-pills { gap: 6px; }
+  .hero-pill { font-size: 10px; padding: 4px 11px; }
+  /* Plan cards */
+  .plan-card-title { font-size: 18px; }
+}
+
 @media print {
   * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-shadow: none !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
   @page { margin: 0; size: A4; }
@@ -694,7 +730,7 @@ body {
   <div class="section-title-row"><div class="section-rule"></div><span class="section-label">Sarajevo &mdash; Day by Day</span><div class="section-rule"></div></div>
 
   <!-- WEDNESDAY -->
-  <div class="day-block" id="day-wed">
+  <div class="day-block" id="day-wed" data-day="Wednesday 13 May" data-theme="Arrival &amp; Old Town" data-color="#0A7EA4" style="--day-accent:#0A7EA4">
     <div class="day-tag"><span class="day-tag-name">Wednesday 13 May</span><span class="day-tag-sep"></span><span class="day-tag-sub">Arrival &amp; Old Town</span></div>
     <div class="day-header">
       <div class="day-meta-item"><span class="day-meta-icon">&#127775;</span>Theme<strong>Ottoman Sarajevo</strong></div>
@@ -720,7 +756,7 @@ body {
   </div>
 
   <!-- THURSDAY -->
-  <div class="day-block" id="day-thu">
+  <div class="day-block" id="day-thu" data-day="Thursday 14 May" data-theme="Siege History" data-color="#5856D6" style="--day-accent:#5856D6">
     <div class="day-tag" style="background:var(--purple)"><span class="day-tag-name">Thursday 14 May</span><span class="day-tag-sep"></span><span class="day-tag-sub">Siege History</span></div>
     <div class="day-header">
       <div class="day-meta-item"><span class="day-meta-icon">&#127775;</span>Theme<strong>1992&ndash;95 Siege</strong></div>
@@ -747,7 +783,7 @@ body {
   </div>
 
   <!-- SATURDAY -->
-  <div class="day-block" id="day-sat">
+  <div class="day-block" id="day-sat" data-day="Saturday 16 May" data-theme="Mostar → Sarajevo" data-color="#FF9500" style="--day-accent:#FF9500">
     <div class="day-tag" style="background:var(--orange)"><span class="day-tag-name">Saturday 16 May</span><span class="day-tag-sep"></span><span class="day-tag-sub">Mostar morning &amp; return</span></div>
     <div class="day-header">
       <div class="day-meta-item"><span class="day-meta-icon">&#127775;</span>Theme<strong>Old Bridge &amp; memorials</strong></div>
@@ -768,7 +804,7 @@ body {
   </div>
 
   <!-- SUNDAY -->
-  <div class="day-block" id="day-sun">
+  <div class="day-block" id="day-sun" data-day="Sunday 17 May" data-theme="Departure" data-color="#C9863A" style="--day-accent:#C9863A">
     <div class="day-tag" style="background:var(--gold)"><span class="day-tag-name">Sunday 17 May</span><span class="day-tag-sep"></span><span class="day-tag-sub">Departure</span></div>
     <div class="day-header">
       <div class="day-meta-item"><span class="day-meta-icon">&#127775;</span>Theme<strong>Early departure</strong></div>
