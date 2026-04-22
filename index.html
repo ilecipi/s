@@ -48,23 +48,92 @@ body {
 /* NAVBAR */
 .navbar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(242,242,247,0.85);
+  background: rgba(242,242,247,0.82);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 0.5px solid var(--separator);
-  display: flex; justify-content: center; padding: 0 16px;
+  display: flex; justify-content: center; padding: 6px 12px;
 }
-.navbar-inner { max-width: 760px; width: 100%; display: flex; }
+.navbar-inner {
+  max-width: 760px; width: 100%;
+  display: flex; justify-content: center; align-items: center;
+  gap: 2px; flex-wrap: nowrap;
+}
+@media (max-width: 440px) {
+  .navbar-inner { gap: 0; }
+  .navbar a { padding: 7px 9px; font-size: 11px; letter-spacing: 0; }
+  .nav-caret { padding: 4px 3px; }
+}
+.nav-item { position: relative; display: flex; align-items: center; }
+/* Invisible hover bridge so moving cursor from the Sarajevo pill down to the dropdown doesn't lose hover */
+.nav-item.has-dropdown::after {
+  content: ''; position: absolute;
+  top: 100%; left: -4px; right: -4px; height: 14px;
+  pointer-events: auto;
+}
 .navbar a {
-  color: var(--label3); text-decoration: none;
-  font-size: 12px; font-weight: 500; letter-spacing: 0.3px;
-  padding: 12px 16px;
-  border-bottom: 2px solid transparent;
-  transition: color 0.15s, border-color 0.15s;
+  color: var(--label2); text-decoration: none;
+  font-size: 12px; font-weight: 500; letter-spacing: 0.2px;
+  padding: 7px 13px;
+  border-radius: 999px;
+  transition: color 0.15s, background 0.15s;
   white-space: nowrap;
 }
-.navbar a:hover { color: var(--teal); }
-.navbar a.active { color: var(--teal); border-bottom-color: var(--teal); }
+.navbar a:hover { color: var(--teal); background: rgba(10,126,164,0.08); }
+.navbar a.active {
+  color: #fff; background: var(--teal);
+  box-shadow: 0 2px 8px rgba(10,126,164,0.25);
+}
+
+/* NAV DROPDOWN */
+.nav-caret {
+  background: none; border: none; cursor: pointer;
+  color: var(--label3); font-size: 10px; padding: 4px 6px;
+  margin-left: -6px; transition: transform .2s, color .15s;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.nav-caret:hover { color: var(--teal); }
+.nav-item.has-dropdown.open .nav-caret,
+.nav-item.has-dropdown:hover .nav-caret { transform: rotate(180deg); color: var(--teal); }
+.nav-dropdown {
+  position: absolute; top: calc(100% + 4px); left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+  min-width: 240px;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: saturate(180%) blur(24px);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+  border: 0.5px solid var(--separator);
+  border-radius: 14px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.04);
+  padding: 6px; z-index: 101;
+  opacity: 0; pointer-events: none;
+  transition: opacity .18s ease, transform .18s ease;
+}
+.nav-item.has-dropdown:hover .nav-dropdown,
+.nav-item.has-dropdown:focus-within .nav-dropdown,
+.nav-item.has-dropdown.open .nav-dropdown {
+  opacity: 1; pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.nav-dropdown a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: 10px;
+  font-size: 13px; font-weight: 500; color: var(--label);
+  background: transparent; box-shadow: none;
+}
+.nav-dropdown a:hover { background: rgba(10,126,164,0.08); color: var(--teal); }
+.nav-dropdown a.active { background: var(--teal); color: #fff; }
+.nav-dropdown-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--teal); flex-shrink: 0;
+}
+.nav-dropdown-dot.wed { background: var(--teal); }
+.nav-dropdown-dot.thu { background: var(--purple); }
+.nav-dropdown-dot.fri { background: var(--green-dark); }
+.nav-dropdown-dot.sat { background: var(--orange); }
+.nav-dropdown-dot.sun { background: var(--gold); }
+.nav-dropdown-day { font-size: 10px; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; color: var(--label3); margin-right: 4px; min-width: 30px; }
+.nav-dropdown a.active .nav-dropdown-day { color: rgba(255,255,255,0.75); }
 
 /* HERO */
 .hero {
@@ -105,8 +174,9 @@ body {
 .info-strip {
   max-width: 760px; margin: 0 auto;
   padding: 20px 20px 0;
-  display: grid; grid-template-columns: repeat(2,1fr); gap: 10px;
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 10px;
 }
+@media(max-width:620px){ .info-strip{ grid-template-columns: repeat(2,1fr); } }
 .info-card {
   background: var(--glass);
   backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
@@ -267,6 +337,165 @@ body {
 .footer { text-align: center; padding: 40px 24px 20px; font-size: 13px; color: var(--label3); }
 .footer strong { display: block; font-size: 16px; font-weight: 500; color: var(--label2); margin-bottom: 4px; }
 
+/* TRIP OVERVIEW */
+.trip-overview {
+  max-width: 760px; margin: 0 auto; padding: 20px 20px 0;
+}
+.overview-card {
+  background: var(--glass);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 0.5px solid var(--glass-border);
+  border-radius: var(--radius); padding: 16px 18px;
+  box-shadow: var(--shadow-sm);
+}
+.overview-stats {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  gap: 0; padding-bottom: 14px;
+  border-bottom: 0.5px solid var(--separator);
+  margin-bottom: 14px;
+}
+@media(max-width:620px){ .overview-stats{ grid-template-columns: repeat(5,1fr); gap:4px; } }
+.overview-stat { text-align: center; padding: 0 6px; border-right: 0.5px solid var(--separator); }
+.overview-stat:last-child { border-right: none; }
+.overview-stat-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px; font-weight: 400; color: var(--teal); line-height: 1;
+}
+.overview-stat-label {
+  font-size: 9px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase;
+  color: var(--label3); margin-top: 4px;
+}
+.day-strip { display: flex; flex-wrap: wrap; gap: 6px; }
+.day-chip {
+  flex: 1 1 calc(20% - 6px); min-width: 120px;
+  background: rgba(255,255,255,0.6); border: 0.5px solid var(--separator);
+  border-radius: var(--radius-sm); padding: 9px 10px;
+  text-decoration: none; color: var(--label);
+  transition: transform .15s, box-shadow .15s;
+  border-left: 3px solid var(--teal);
+}
+.day-chip:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+.day-chip.wed { border-left-color: var(--teal); }
+.day-chip.thu { border-left-color: var(--purple); }
+.day-chip.fri { border-left-color: var(--green-dark); }
+.day-chip.sat { border-left-color: var(--orange); }
+.day-chip.sun { border-left-color: var(--gold); }
+.day-chip-day { font-size: 10px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--label3); }
+.day-chip-theme { font-size: 12px; font-weight: 500; color: var(--label); margin-top: 1px; }
+
+/* BOOK CARD */
+.book-card {
+  max-width: 760px; margin: 12px auto 0; padding: 0 20px;
+}
+.book-card-inner {
+  background: linear-gradient(135deg, rgba(255,149,0,0.10), rgba(255,149,0,0.03));
+  border: 0.5px solid rgba(255,149,0,0.25);
+  border-radius: var(--radius); padding: 14px 18px;
+  box-shadow: var(--shadow-sm);
+}
+.book-card-title {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase;
+  color: #B36B00; margin-bottom: 10px;
+}
+.book-rows { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; }
+@media(max-width:620px){ .book-rows{ grid-template-columns: 1fr; } }
+.book-row {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--label2);
+}
+.book-row-status {
+  flex-shrink: 0; font-size: 11px; font-weight: 600;
+  width: 20px; text-align: center;
+}
+.book-row.done .book-row-status { color: var(--green-dark); }
+.book-row.todo .book-row-status { color: var(--orange); }
+.book-row.done .book-row-label { color: var(--label2); }
+.book-row.todo .book-row-label { color: var(--label); font-weight: 500; }
+
+/* DAY HEADER */
+.day-header {
+  background: rgba(255,255,255,0.4);
+  border: 0.5px solid var(--glass-border);
+  border-top: none;
+  padding: 12px 18px;
+  display: flex; flex-wrap: wrap; gap: 14px;
+  font-size: 12px;
+}
+.day-meta-item {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--label2);
+}
+.day-meta-item strong {
+  font-weight: 600; color: var(--label); margin-left: 2px;
+}
+.day-meta-icon { font-size: 13px; }
+.day-summary {
+  width: 100%;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 15px;
+  color: var(--label2); line-height: 1.4;
+  padding-top: 4px;
+  border-top: 0.5px solid var(--separator);
+  margin-top: 4px;
+}
+.grouped-list.attached { border-radius: 0 0 var(--radius-sm) var(--radius-sm); }
+
+/* MAPS LINK */
+.maps-link {
+  display: inline-flex; align-items: center; gap: 3px;
+  margin-top: 8px; font-size: 11px; font-weight: 500;
+  color: var(--teal); text-decoration: none;
+  border: 0.5px solid rgba(10,126,164,0.25);
+  background: rgba(10,126,164,0.06);
+  border-radius: 5px; padding: 3px 8px;
+  transition: background .15s;
+}
+.maps-link:hover { background: rgba(10,126,164,0.14); }
+.list-row-tip + .maps-link { margin-left: 6px; }
+.plan-row .maps-link { color: var(--teal-light); border-color: rgba(50,173,230,0.3); background: rgba(50,173,230,0.08); }
+.plan-row .maps-link:hover { background: rgba(50,173,230,0.18); }
+
+/* FOOD SECTION */
+.food-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+@media(max-width:720px){ .food-grid{ grid-template-columns: 1fr; } }
+.food-col-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 600; color: var(--label);
+  margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+  padding: 0 4px;
+}
+.food-cat {
+  background: var(--card);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 0.5px solid var(--glass-border);
+  border-radius: var(--radius-sm); overflow: hidden;
+  box-shadow: var(--shadow-sm); margin-bottom: 10px;
+}
+.food-cat-header {
+  padding: 9px 14px;
+  background: rgba(10,126,164,0.07);
+  border-bottom: 0.5px solid var(--separator);
+  font-size: 11px; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase;
+  color: var(--teal);
+  display: flex; align-items: center; gap: 6px;
+}
+.food-item { padding: 10px 14px; border-bottom: 0.5px solid var(--separator); }
+.food-item:last-child { border-bottom: none; }
+.food-item-top { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.food-item-name { font-size: 14px; font-weight: 600; color: var(--label); }
+.food-item-meta { font-size: 11px; color: var(--label3); flex-shrink: 0; }
+.food-item-desc { font-size: 12px; color: var(--label2); margin-top: 3px; line-height: 1.5; }
+.food-item-tag {
+  display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: 0.4px;
+  text-transform: uppercase; color: #B36B00;
+  background: rgba(255,149,0,0.12); border-radius: 4px; padding: 1px 6px;
+  margin-right: 4px; margin-top: 4px;
+}
+.food-item .maps-link { margin-top: 6px; }
+
 /* PRINT */
 @media print {
   * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-shadow: none !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
@@ -279,9 +508,11 @@ body {
   .plan-card-header.b { background: #5856D6 !important; }
   .cost-total-card { background: #0A7EA4 !important; }
   .day-tag { background: var(--teal) !important; }
-  .grouped-list, .costs-card, .tip-card, .info-card, .plan-rows { background: #fff !important; }
+  .grouped-list, .costs-card, .tip-card, .info-card, .plan-rows, .overview-card, .food-cat, .day-header { background: #fff !important; }
+  .book-card-inner { background: #FFF5E6 !important; }
   .map-wrap iframe { height: 220px !important; }
-  .day-block, .plan-card, .tip-card { break-inside: avoid; }
+  .day-block, .plan-card, .tip-card, .food-cat, .overview-card, .book-card { break-inside: avoid; }
+  .maps-link { display: none !important; }
 }
 </style>
 </head>
@@ -290,11 +521,22 @@ body {
 <!-- NAVBAR -->
 <nav class="navbar">
   <div class="navbar-inner">
-    <a href="#top">Home</a>
-    <a href="#sarajevo">Sarajevo</a>
-    <a href="#friday">Friday</a>
-    <a href="#costs">Costs</a>
-    <a href="#tips">Tips</a>
+    <div class="nav-item"><a href="#top">Home</a></div>
+    <div class="nav-item has-dropdown">
+      <a href="#day-wed" data-nav="sarajevo">Sarajevo</a>
+      <button class="nav-caret" aria-label="Choose day" type="button">&#9662;</button>
+      <div class="nav-dropdown">
+        <a href="#day-wed"><span class="nav-dropdown-dot wed"></span><span class="nav-dropdown-day">Wed</span>Arrival &amp; Old Town</a>
+        <a href="#day-thu"><span class="nav-dropdown-dot thu"></span><span class="nav-dropdown-day">Thu</span>Siege History</a>
+        <a href="#herzegovina"><span class="nav-dropdown-dot fri"></span><span class="nav-dropdown-day">Fri</span>Mostar Day Trip</a>
+        <a href="#day-sat"><span class="nav-dropdown-dot sat"></span><span class="nav-dropdown-day">Sat</span>Mostar &rarr; Sarajevo</a>
+        <a href="#day-sun"><span class="nav-dropdown-dot sun"></span><span class="nav-dropdown-day">Sun</span>Departure</a>
+      </div>
+    </div>
+    <div class="nav-item"><a href="#herzegovina">Mostar</a></div>
+    <div class="nav-item"><a href="#food">Food</a></div>
+    <div class="nav-item"><a href="#costs">Costs</a></div>
+    <div class="nav-item"><a href="#tips">Tips</a></div>
   </div>
 </nav>
 
@@ -310,6 +552,42 @@ body {
       <span class="hero-pill">War Memorials</span>
       <span class="hero-pill">Nature</span>
       <span class="hero-pill">Herzegovina</span>
+      <span class="hero-pill">&#127837; &#269;evapi &amp; burek</span>
+    </div>
+  </div>
+</div>
+
+<!-- TRIP OVERVIEW -->
+<div class="trip-overview">
+  <div class="overview-card">
+    <div class="overview-stats">
+      <div class="overview-stat"><div class="overview-stat-value">5</div><div class="overview-stat-label">Days</div></div>
+      <div class="overview-stat"><div class="overview-stat-value">2</div><div class="overview-stat-label">Cities</div></div>
+      <div class="overview-stat"><div class="overview-stat-value">5</div><div class="overview-stat-label">People</div></div>
+      <div class="overview-stat"><div class="overview-stat-value">1</div><div class="overview-stat-label">Car</div></div>
+      <div class="overview-stat"><div class="overview-stat-value">~&euro;133</div><div class="overview-stat-label">p.p. so far</div></div>
+    </div>
+    <div class="day-strip">
+      <a class="day-chip wed" href="#day-wed"><div class="day-chip-day">Wed 13</div><div class="day-chip-theme">Arrival &amp; Old Town</div></a>
+      <a class="day-chip thu" href="#day-thu"><div class="day-chip-day">Thu 14</div><div class="day-chip-theme">Siege History</div></a>
+      <a class="day-chip fri" href="#herzegovina"><div class="day-chip-day">Fri 15</div><div class="day-chip-theme">Mostar Day Trip</div></a>
+      <a class="day-chip sat" href="#day-sat"><div class="day-chip-day">Sat 16</div><div class="day-chip-theme">Mostar &rarr; Sarajevo</div></a>
+      <a class="day-chip sun" href="#day-sun"><div class="day-chip-day">Sun 17</div><div class="day-chip-theme">Departure</div></a>
+    </div>
+  </div>
+</div>
+
+<!-- STILL TO BOOK -->
+<div class="book-card">
+  <div class="book-card-inner">
+    <div class="book-card-title">&#9888;&#65039; Still to book</div>
+    <div class="book-rows">
+      <div class="book-row done"><span class="book-row-status">&#10003;</span><span class="book-row-label">Sarajevo Airbnb &mdash; Faris</span></div>
+      <div class="book-row done"><span class="book-row-status">&#10003;</span><span class="book-row-label">Mostar &mdash; Apartments ABC</span></div>
+      <div class="book-row todo"><span class="book-row-status">&#9679;</span><span class="book-row-label">Car rental</span></div>
+      <div class="book-row todo"><span class="book-row-status">&#9679;</span><span class="book-row-label">War Childhood Museum tickets</span></div>
+      <div class="book-row todo"><span class="book-row-status">&#9679;</span><span class="book-row-label">eSIM / roaming for BiH</span></div>
+      <div class="book-row todo"><span class="book-row-status">&#9679;</span><span class="book-row-label">Dinner reservations (Dveri, 4 Sobe)</span></div>
     </div>
   </div>
 </div>
@@ -328,16 +606,23 @@ body {
   <div class="section-title-row"><div class="section-rule"></div><span class="section-label">Sarajevo &mdash; Day by Day</span><div class="section-rule"></div></div>
 
   <!-- WEDNESDAY -->
-  <div class="day-block">
-    <div class="day-tag"><span class="day-tag-name">Wednesday</span><span class="day-tag-sep"></span><span class="day-tag-sub">Arrival &amp; Old Town</span></div>
-    <div class="grouped-list">
-      <div class="list-row"><div class="list-row-time">10:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#128332; Sebilj &amp; Ba&#353;&#269;ar&#353;ija</div><div class="list-row-desc">The Ottoman heart of Sarajevo. The 18th-century wooden fountain is the city&rsquo;s most iconic symbol &mdash; legend says if you drink from it, you&rsquo;ll always return.</div></div></div>
-      <div class="list-row"><div class="list-row-time">11:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#127963;&#65039; Ta&#353;lihan Caravanserai</div><div class="list-row-desc">Ruins of a grand Silk Road inn built in 1543. Walk the glass walkway above the ancient foundations.</div></div></div>
-      <div class="list-row"><div class="list-row-time">13:30</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#128293; Eternal Flame &mdash; Vje&#269;na vatra</div><div class="list-row-desc">Burning since 1946 in memory of WWII victims. Never extinguished even through the 1990s siege.</div></div></div>
-      <div class="list-row"><div class="list-row-time">14:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#127751; Latin Bridge &mdash; WWI Site</div><div class="list-row-desc">Where Archduke Franz Ferdinand was assassinated on 28 June 1914, triggering World War I.</div><div class="list-row-tip">&#128161; Small museum at the north end</div></div></div>
-      <div class="list-row"><div class="list-row-time">15:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#128332; Gazi Husrev-beg Mosque</div><div class="list-row-desc">Largest mosque in Bosnia, built in 1532. Free entry outside prayer times. Beautiful courtyard.</div><div class="list-row-tip">&#128161; Cover shoulders &amp; knees. Remove shoes.</div></div></div>
-      <div class="list-row"><div class="list-row-time">16:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#127963;&#65039; Vije&#263;nica &mdash; City Hall</div><div class="list-row-desc">Spectacular Austro-Hungarian building burnt during the 1992 siege, painstakingly rebuilt in 2014.</div></div></div>
-      <div class="list-row"><div class="list-row-time">19:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#127749; Yellow Fortress &mdash; Sunset</div><div class="list-row-desc">15-min uphill walk from Ba&#353;&#269;ar&#353;ija. Panoramic view of Sarajevo spread across the valley &mdash; one of the most memorable sights in the Balkans.</div><div class="list-row-tip">&#128161; Arrive 1 hour before sunset</div></div></div>
+  <div class="day-block" id="day-wed">
+    <div class="day-tag"><span class="day-tag-name">Wednesday 13 May</span><span class="day-tag-sep"></span><span class="day-tag-sub">Arrival &amp; Old Town</span></div>
+    <div class="day-header">
+      <div class="day-meta-item"><span class="day-meta-icon">&#127775;</span>Theme<strong>Ottoman Sarajevo</strong></div>
+      <div class="day-meta-item"><span class="day-meta-icon">&#127774;</span>Weather<strong>~22&deg;C, sunny</strong></div>
+      <div class="day-meta-item"><span class="day-meta-icon">&#128694;</span>Walking<strong>~5 km, flat</strong></div>
+      <div class="day-meta-item"><span class="day-meta-icon">&#128176;</span>Cash<strong>Get KM at ATM</strong></div>
+      <div class="day-summary">Land, drop bags, walk Ba&#353;&#269;ar&#353;ija end-to-end, catch the sunset from Yellow Fortress.</div>
+    </div>
+    <div class="grouped-list attached">
+      <div class="list-row"><div class="list-row-time">10:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#128332; Sebilj &amp; Ba&#353;&#269;ar&#353;ija</div><div class="list-row-desc">The Ottoman heart of Sarajevo. The 18th-century wooden fountain is the city&rsquo;s most iconic symbol &mdash; legend says if you drink from it, you&rsquo;ll always return.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Sebilj+Sarajevo">Open in Maps &#8599;</a></div></div>
+      <div class="list-row"><div class="list-row-time">11:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#127963;&#65039; Ta&#353;lihan Caravanserai</div><div class="list-row-desc">Ruins of a grand Silk Road inn built in 1543. Walk the glass walkway above the ancient foundations.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Taslihan+Sarajevo">Open in Maps &#8599;</a></div></div>
+      <div class="list-row"><div class="list-row-time">13:30</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#128293; Eternal Flame &mdash; Vje&#269;na vatra</div><div class="list-row-desc">Burning since 1946 in memory of WWII victims. Never extinguished even through the 1990s siege.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Vjecna+Vatra+Sarajevo">Open in Maps &#8599;</a></div></div>
+      <div class="list-row"><div class="list-row-time">14:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#127751; Latin Bridge &mdash; WWI Site</div><div class="list-row-desc">Where Archduke Franz Ferdinand was assassinated on 28 June 1914, triggering World War I.</div><div class="list-row-tip">&#128161; Small museum at the north end</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Latin+Bridge+Sarajevo">Open in Maps &#8599;</a></div></div>
+      <div class="list-row"><div class="list-row-time">15:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#128332; Gazi Husrev-beg Mosque</div><div class="list-row-desc">Largest mosque in Bosnia, built in 1532. Free entry outside prayer times. Beautiful courtyard.</div><div class="list-row-tip">&#128161; Cover shoulders &amp; knees. Remove shoes.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Gazi+Husrev-beg+Mosque+Sarajevo">Open in Maps &#8599;</a></div></div>
+      <div class="list-row"><div class="list-row-time">16:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#127963;&#65039; Vije&#263;nica &mdash; City Hall</div><div class="list-row-desc">Spectacular Austro-Hungarian building burnt during the 1992 siege, painstakingly rebuilt in 2014.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Vijecnica+Sarajevo">Open in Maps &#8599;</a></div></div>
+      <div class="list-row"><div class="list-row-time">19:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#127749; Yellow Fortress &mdash; Sunset</div><div class="list-row-desc">15-min uphill walk from Ba&#353;&#269;ar&#353;ija. Panoramic view of Sarajevo spread across the valley &mdash; one of the most memorable sights in the Balkans.</div><div class="list-row-tip">&#128161; Arrive 1 hour before sunset</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Yellow+Fortress+Sarajevo">Open in Maps &#8599;</a></div></div>
     </div>
     <div class="map-wrap">
       <iframe src="https://www.google.com/maps/embed?pb=!1m52!1m12!1m3!1d2884!2d18.428!3d43.859!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m37!3e2!4m5!1s0x4758c9b3af949e0b%3A0x16e30a2e4a00c852!2sSebilj%2C%20Sarajevo!3m2!1d43.8597!2d18.4313!4m5!1s0x4758c8c9bf9c0000%3A0x1!2sTa%C5%A1lihan%2C%20Sarajevo!3m2!1d43.8585!2d18.428!4m5!1s0x4758c8ccbedf3b99%3A0x84cf8f8cc95a15fd!2sVje%C4%8Dna%20vatra%2C%20Sarajevo!3m2!1d43.8588!2d18.4219!4m5!1s0x4758c8b6c8180001%3A0x1!2sLatin%20Bridge%2C%20Sarajevo!3m2!1d43.8572!2d18.4326!4m5!1s0x4758c9b48d37bc53%3A0xe92e73b26b8ca62b!2sGazi%20Husrev-beg%20Mosque%2C%20Sarajevo!3m2!1d43.8601!2d18.4308!4m5!1s0x4758c8b5bfd84bcb%3A0xa20ad2ce0a2eef!2sYellow%20Fortress%2C%20Sarajevo!3m2!1d43.8614!2d18.4376!5e0!3m2!1sen!2sba!4v1680000000000!5m2!1sen!2sba" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -346,12 +631,19 @@ body {
   </div>
 
   <!-- THURSDAY -->
-  <div class="day-block">
-    <div class="day-tag"><span class="day-tag-name">Thursday</span><span class="day-tag-sep"></span><span class="day-tag-sub">Siege History</span></div>
-    <div class="grouped-list">
-      <div class="list-row"><div class="list-row-time">11:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#127963;&#65039; War Childhood Museum</div><div class="list-row-desc">One of the most powerful museums in Europe. The siege told through 50 objects chosen by people who were children during the conflict &mdash; each with a personal testimony. Allow 90 min.</div><div class="list-row-tip">&#128161; Opens 11am &middot; Book at warchildhood.org</div></div></div>
-      <div class="list-row"><div class="list-row-time">15:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#128647; Tunnel of Salvation</div><div class="list-row-desc">The 800m tunnel dug under the airport runway in 1993 that kept the besieged city alive. Museum with original footage and artefacts. Entry ~20 KM.</div><div class="list-row-tip">&#128161; 20-min taxi from centre &middot; Cash only</div></div></div>
-      <div class="list-row"><div class="list-row-time">17:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#128673; Trebevi&#263; &mdash; Olympic Bobsled Track</div><div class="list-row-desc">Cable car up to 1,163m for panoramic views, then walk 200m to the abandoned 1984 Olympics bobsled track &mdash; covered in murals and graffiti. Eerie and unforgettable.</div></div></div>
+  <div class="day-block" id="day-thu">
+    <div class="day-tag" style="background:var(--purple)"><span class="day-tag-name">Thursday 14 May</span><span class="day-tag-sep"></span><span class="day-tag-sub">Siege History</span></div>
+    <div class="day-header">
+      <div class="day-meta-item"><span class="day-meta-icon">&#127775;</span>Theme<strong>1992&ndash;95 Siege</strong></div>
+      <div class="day-meta-item"><span class="day-meta-icon">&#127774;</span>Weather<strong>~23&deg;C</strong></div>
+      <div class="day-meta-item"><span class="day-meta-icon">&#128694;</span>Walking<strong>~3 km + taxi + cable car</strong></div>
+      <div class="day-meta-item"><span class="day-meta-icon">&#128181;</span>Cash needed<strong>~60 KM pp</strong></div>
+      <div class="day-summary">A heavy but essential day. The siege told three ways: personal, underground, and from above.</div>
+    </div>
+    <div class="grouped-list attached">
+      <div class="list-row"><div class="list-row-time">11:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#127963;&#65039; War Childhood Museum</div><div class="list-row-desc">One of the most powerful museums in Europe. The siege told through 50 objects chosen by people who were children during the conflict &mdash; each with a personal testimony. Allow 90 min.</div><div class="list-row-tip">&#128161; Opens 11am &middot; Book at warchildhood.org</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=War+Childhood+Museum+Sarajevo">Open in Maps &#8599;</a></div></div>
+      <div class="list-row"><div class="list-row-time">15:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#128647; Tunnel of Salvation</div><div class="list-row-desc">The 800m tunnel dug under the airport runway in 1993 that kept the besieged city alive. Museum with original footage and artefacts. Entry ~20 KM.</div><div class="list-row-tip">&#128161; 20-min taxi from centre &middot; Cash only</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Sarajevo+Tunnel+of+Hope+Museum">Open in Maps &#8599;</a></div></div>
+      <div class="list-row"><div class="list-row-time">17:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#128673; Trebevi&#263; &mdash; Olympic Bobsled Track</div><div class="list-row-desc">Cable car up to 1,163m for panoramic views, then walk 200m to the abandoned 1984 Olympics bobsled track &mdash; covered in murals and graffiti. Eerie and unforgettable.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Trebevic+Cable+Car+Sarajevo">Open in Maps &#8599;</a></div></div>
     </div>
     <div class="map-wrap">
       <iframe src="https://www.google.com/maps/embed?pb=!1m34!1m12!1m3!1d11700!2d18.390!3d43.845!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m19!3e0!4m5!1s0x4758c8cbce7cebbf%3A0xf84cf46be4630eed!2sWar%20Childhood%20Museum%2C%20Sarajevo!3m2!1d43.8619!2d18.4284!4m5!1s0x4758c9f975860455%3A0xcee7af8d75d8e791!2sTunnel%20of%20Salvation%2C%20Sarajevo!3m2!1d43.8198!2d18.3373!4m5!1s0x4758c8e0c1000001%3A0x1!2sTrebevi%C4%87%20Cable%20Car%2C%20Sarajevo!3m2!1d43.852!2d18.441!5e0!3m2!1sen!2sba!4v1680000001000!5m2!1sen!2sba" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -366,41 +658,70 @@ body {
   </div>
 
   <!-- SATURDAY -->
-  <div class="day-block">
-    <div class="day-tag" style="background:var(--teal-light)"><span class="day-tag-name">Saturday afternoon</span><span class="day-tag-sep"></span><span class="day-tag-sub">Return from Mostar</span></div>
-    <div class="grouped-list">
-      <div class="list-row"><div class="list-row-time">~15:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#128663; Return from Mostar</div><div class="list-row-desc">~2.5 hour scenic drive back through the Neretva valley.</div></div></div>
-      <div class="list-row"><div class="list-row-time">17:30</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#128308; Sarajevo Roses</div><div class="list-row-desc">Mortar shell craters filled with red resin &mdash; a haunting, city-wide memorial scattered across the pavements.</div></div></div>
-      <div class="list-row"><div class="list-row-time">18:30</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#127963;&#65039; Museum of Crimes Against Humanity</div><div class="list-row-desc">Raw documentation of the 1992&ndash;95 siege. Check opening hours in advance.</div></div></div>
+  <div class="day-block" id="day-sat">
+    <div class="day-tag" style="background:var(--orange)"><span class="day-tag-name">Saturday 16 May</span><span class="day-tag-sep"></span><span class="day-tag-sub">Mostar morning &amp; return</span></div>
+    <div class="day-header">
+      <div class="day-meta-item"><span class="day-meta-icon">&#127775;</span>Theme<strong>Old Bridge &amp; memorials</strong></div>
+      <div class="day-meta-item"><span class="day-meta-icon">&#127774;</span>Weather<strong>~25&deg;C, sunny</strong></div>
+      <div class="day-meta-item"><span class="day-meta-icon">&#128663;</span>Drive<strong>Mostar &rarr; Sarajevo ~2.5 hrs</strong></div>
+      <div class="day-meta-item"><span class="day-meta-icon">&#127864;</span>Evening<strong>Dinner + rakija</strong></div>
+      <div class="day-summary">Slow morning in Mostar, scenic drive back, evening revisiting Sarajevo with the memorials in mind.</div>
+    </div>
+    <div class="grouped-list attached">
+      <div class="list-row"><div class="list-row-time">08:30</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#9749; Mostar breakfast &amp; Stari Most</div><div class="list-row-desc">Coffee by the river, watch the first bridge divers, walk the Old Bazaar before the tour buses arrive.</div><div class="list-row-tip">&#128161; Best light for photos before 10am</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Stari+Most+Mostar">Open in Maps &#8599;</a></div></div>
+      <div class="list-row"><div class="list-row-time">11:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#127963;&#65039; Mostar Museum Hercegovina / Blagaj Tekke</div><div class="list-row-desc">Optional last stop before leaving: either the city museum, or a 15-min drive to Blagaj &mdash; a 16th-c. Dervish house under a cliff at the source of the Buna river.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Blagaj+Tekija">Open in Maps &#8599;</a></div></div>
+      <div class="list-row"><div class="list-row-time">12:30</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#128663; Drive back to Sarajevo</div><div class="list-row-desc">~2.5 hours through the Neretva valley. Stop for lunch in Konjic or Jablani&#269;ko lake if you want to break it up.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;origin=Mostar&amp;destination=Sarajevo">Route in Maps &#8599;</a></div></div>
+      <div class="list-row"><div class="list-row-time">16:30</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#128308; Sarajevo Roses walk</div><div class="list-row-desc">Mortar shell craters filled with red resin &mdash; a haunting, city-wide memorial scattered across the pavements. Walk slowly, they&rsquo;re easy to miss.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Sarajevo+Roses+memorial">Open in Maps &#8599;</a></div></div>
+      <div class="list-row"><div class="list-row-time">17:30</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#127963;&#65039; Museum of Crimes Against Humanity</div><div class="list-row-desc">Raw documentation of the 1992&ndash;95 siege. Check opening hours in advance.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Museum+of+Crimes+Against+Humanity+and+Genocide+Sarajevo">Open in Maps &#8599;</a></div></div>
+      <div class="list-row"><div class="list-row-time">20:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#127869;&#65039; Dinner &mdash; Dveri or 4 Sobe</div><div class="list-row-desc">Farewell Bosnian dinner. Dveri is tiny, cash-only, needs a reservation; 4 Sobe Gospo&#273;e Safije is the modern-upscale option.</div><div class="list-row-tip">&#128161; Reserve ahead &middot; see Food section</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Dveri+restaurant+Sarajevo">Open in Maps &#8599;</a></div></div>
+      <div class="list-row"><div class="list-row-time">22:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#127864; Rakija at Zlatna Ribica</div><div class="list-row-desc">Kitsch-baroque bar that could be a museum. Perfect last-night Sarajevo nightcap.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Zlatna+Ribica+Sarajevo">Open in Maps &#8599;</a></div></div>
+    </div>
+  </div>
+
+  <!-- SUNDAY -->
+  <div class="day-block" id="day-sun">
+    <div class="day-tag" style="background:var(--gold)"><span class="day-tag-name">Sunday 17 May</span><span class="day-tag-sep"></span><span class="day-tag-sub">Departure</span></div>
+    <div class="day-header">
+      <div class="day-meta-item"><span class="day-meta-icon">&#127775;</span>Theme<strong>Slow morning, goodbye</strong></div>
+      <div class="day-meta-item"><span class="day-meta-icon">&#127774;</span>Weather<strong>~22&deg;C</strong></div>
+      <div class="day-meta-item"><span class="day-meta-icon">&#128336;</span>Check-out<strong>By 11:00</strong></div>
+      <div class="day-meta-item"><span class="day-meta-icon">&#9992;&#65039;</span>Airport<strong>SJJ &middot; 15 min from centre</strong></div>
+      <div class="day-summary">One last Bosnian coffee, drink from Sebilj (the legend says you&rsquo;ll return), return the car, fly out.</div>
+    </div>
+    <div class="grouped-list attached">
+      <div class="list-row"><div class="list-row-time">09:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#9749; Bosnian coffee at D&#382;irlo</div><div class="list-row-desc">Tiny corner kafana in Ba&#353;&#269;ar&#353;ija. The full Bosnian coffee ritual: fin&#273;an, rahat lokum, sugar cube on the tongue.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Cajdzinica+Dzirlo+Sarajevo">Open in Maps &#8599;</a></div></div>
+      <div class="list-row"><div class="list-row-time">10:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#128332; One last sip at Sebilj</div><div class="list-row-desc">Drink from the fountain &mdash; legend says you&rsquo;ll come back to Sarajevo.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Sebilj+Sarajevo">Open in Maps &#8599;</a></div></div>
+      <div class="list-row"><div class="list-row-time">11:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#127960; Check out &mdash; Mar&#353;ala Tita 6</div><div class="list-row-desc">Leave keys with Faris. Load the car.</div></div></div>
+      <div class="list-row"><div class="list-row-time">12:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#128663; Car return &amp; Sarajevo airport (SJJ)</div><div class="list-row-desc">Airport is 15 min from the centre. Drop the car first (rental desks at SJJ), then check in.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Sarajevo+International+Airport+SJJ">Open in Maps &#8599;</a></div></div>
     </div>
   </div>
 </div>
 
-<!-- FRIDAY -->
-<div id="friday"></div>
+<!-- HERZEGOVINA (Friday) -->
+<div id="herzegovina"></div>
 <div class="friday-band">
   <div class="section">
-    <div class="section-title-row"><div class="section-rule"></div><span class="section-label" style="color:rgba(255,255,255,0.35)">Friday &mdash; Herzegovina</span><div class="section-rule"></div></div>
-    <p class="friday-intro">Depart Sarajevo at 7:30am. Both plans end in Mostar for the night. Plan B adds Po&#269;itelj &mdash; highly recommended.</p>
+    <div class="section-title-row"><div class="section-rule"></div><span class="section-label" style="color:rgba(255,255,255,0.35)">Fri 15 &middot; Mostar Day Trip</span><div class="section-rule"></div></div>
+    <p class="friday-intro">A full day south through Herzegovina &mdash; depart Sarajevo 7:30am, sleep in Mostar. Plan B adds Po&#269;itelj and is the recommended route.</p>
 
     <div class="plans-grid">
       <div class="plan-card">
         <div class="plan-card-header a"><span class="plan-card-title">Plan A</span><span class="plan-badge">3 stops</span></div>
         <div class="plan-rows">
           <div class="plan-row"><div class="plan-row-time">07:30</div><div><div class="plan-row-name">&#128663; Depart Sarajevo</div><div class="plan-row-desc">Drive south, ~2.5 hrs.</div></div></div>
-          <div class="plan-row"><div class="plan-row-time">10:00</div><div><div class="plan-row-name">&#128167; Kravica Waterfall</div><div class="plan-row-desc">25m waterfall, turquoise pool. 2 hrs.</div><div class="plan-row-tip">&#128161; 20 KM/person, cash</div></div></div>
-          <div class="plan-row"><div class="plan-row-time">12:30</div><div><div class="plan-row-name">&#9962; Me&#273;ugorje</div><div class="plan-row-desc">Catholic pilgrimage site. ~1.5 hrs.</div></div></div>
-          <div class="plan-row"><div class="plan-row-time">14:30</div><div><div class="plan-row-name">&#127751; Mostar <span class="tag-sleep">Sleep</span></div><div class="plan-row-desc">Stari Most, bazaar, bridge divers.</div></div></div>
+          <div class="plan-row"><div class="plan-row-time">10:00</div><div><div class="plan-row-name">&#128167; Kravica Waterfall</div><div class="plan-row-desc">25m waterfall, turquoise pool. 2 hrs.</div><div class="plan-row-tip">&#128161; 20 KM/person, cash</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Kravica+Waterfall">Open in Maps &#8599;</a></div></div>
+          <div class="plan-row"><div class="plan-row-time">12:30</div><div><div class="plan-row-name">&#9962; Me&#273;ugorje</div><div class="plan-row-desc">Catholic pilgrimage site. ~1.5 hrs.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Medjugorje+shrine">Open in Maps &#8599;</a></div></div>
+          <div class="plan-row"><div class="plan-row-time">14:30</div><div><div class="plan-row-name">&#127751; Mostar <span class="tag-sleep">Sleep</span></div><div class="plan-row-desc">Stari Most, bazaar, bridge divers.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Stari+Most+Mostar">Open in Maps &#8599;</a></div></div>
         </div>
       </div>
       <div class="plan-card">
         <div class="plan-card-header b"><span class="plan-card-title">Plan B <span class="tag-rec">Best</span></span><span class="plan-badge">4 stops</span></div>
         <div class="plan-rows">
           <div class="plan-row"><div class="plan-row-time">07:30</div><div><div class="plan-row-name">&#128663; Depart Sarajevo</div><div class="plan-row-desc">Same early start.</div></div></div>
-          <div class="plan-row"><div class="plan-row-time">10:00</div><div><div class="plan-row-name">&#128167; Kravica Waterfall</div><div class="plan-row-desc">1.5 hrs &mdash; slightly shorter to fit Po&#269;itelj.</div><div class="plan-row-tip">&#128161; 20 KM/person, cash</div></div></div>
-          <div class="plan-row"><div class="plan-row-time">11:45</div><div><div class="plan-row-name">&#127984;&#65039; Po&#269;itelj Fortress</div><div class="plan-row-desc">Medieval village above the Neretva. &#11088; 4.8</div><div class="plan-row-tip">&#128161; Buy pomegranate juice. Steep climb.</div></div></div>
-          <div class="plan-row"><div class="plan-row-time">13:15</div><div><div class="plan-row-name">&#9962; Me&#273;ugorje</div><div class="plan-row-desc">Shorter visit ~1 hr.</div></div></div>
-          <div class="plan-row"><div class="plan-row-time">15:00</div><div><div class="plan-row-name">&#127751; Mostar <span class="tag-sleep">Sleep</span></div><div class="plan-row-desc">More afternoon time. Old Bridge, bazaar, dinner.</div></div></div>
+          <div class="plan-row"><div class="plan-row-time">10:00</div><div><div class="plan-row-name">&#128167; Kravica Waterfall</div><div class="plan-row-desc">1.5 hrs &mdash; slightly shorter to fit Po&#269;itelj.</div><div class="plan-row-tip">&#128161; 20 KM/person, cash</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Kravica+Waterfall">Open in Maps &#8599;</a></div></div>
+          <div class="plan-row"><div class="plan-row-time">11:45</div><div><div class="plan-row-name">&#127984;&#65039; Po&#269;itelj Fortress</div><div class="plan-row-desc">Medieval village above the Neretva. &#11088; 4.8</div><div class="plan-row-tip">&#128161; Buy pomegranate juice. Steep climb.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Pocitelj+Bosnia">Open in Maps &#8599;</a></div></div>
+          <div class="plan-row"><div class="plan-row-time">13:15</div><div><div class="plan-row-name">&#9962; Me&#273;ugorje</div><div class="plan-row-desc">Shorter visit ~1 hr.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Medjugorje+shrine">Open in Maps &#8599;</a></div></div>
+          <div class="plan-row"><div class="plan-row-time">15:00</div><div><div class="plan-row-name">&#127751; Mostar <span class="tag-sleep">Sleep</span></div><div class="plan-row-desc">More afternoon time. Old Bridge, bazaar, dinner.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Stari+Most+Mostar">Open in Maps &#8599;</a></div></div>
         </div>
       </div>
     </div>
@@ -426,6 +747,158 @@ body {
     <div class="map-wrap">
       <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5726!2d17.808!3d43.338!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x134a820686064b49%3A0xb5386b32fd2fd8a9!2sStari%20Most%2C%20Mostar!5e0!3m2!1sen!2sba!4v1680000003000!5m2!1sen!2sba" style="width:100%;height:260px;border:none;display:block;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       <div class="map-cap">Mostar &mdash; Stari Most &amp; Old Town</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOD -->
+<div id="food"></div>
+<div class="section">
+  <div class="section-title-row"><div class="section-rule"></div><span class="section-label">Food &amp; Drink</span><div class="section-rule"></div></div>
+  <p style="font-size:13px;color:var(--label3);padding:0 4px 16px;line-height:1.6">Bosnian food is cheap, hearty, and distinctive. You&rsquo;ll mostly eat &#269;evapi, burek, grilled meats and drink coffee slowly. Most small places are cash only.</p>
+
+  <div class="food-grid">
+    <!-- SARAJEVO -->
+    <div class="food-col">
+      <div class="food-col-title">&#127479;&#127480; Sarajevo</div>
+
+      <div class="food-cat">
+        <div class="food-cat-header">&#127837; &#268;evapi</div>
+        <div class="food-item">
+          <div class="food-item-top"><span class="food-item-name">&#268;evabd&#382;inica &#381;eljo</span><span class="food-item-meta">$ &middot; cash</span></div>
+          <div class="food-item-desc">The icon. Two locations in Ba&#353;&#269;ar&#353;ija, always busy. Order 10 pieces with somun bread and kajmak.</div>
+          <span class="food-item-tag">Must</span>
+          <a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Zeljo+cevabdzinica+Sarajevo">Open in Maps &#8599;</a>
+        </div>
+        <div class="food-item">
+          <div class="food-item-top"><span class="food-item-name">Petica Ferhatovi&#263;</span><span class="food-item-meta">$ &middot; cash</span></div>
+          <div class="food-item-desc">&#381;eljo&rsquo;s main rival. Locals argue endlessly about which is better &mdash; try both.</div>
+          <a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Petica+Ferhatovic+Sarajevo">Open in Maps &#8599;</a>
+        </div>
+        <div class="food-item">
+          <div class="food-item-top"><span class="food-item-name">Mrkva</span><span class="food-item-meta">$ &middot; cash</span></div>
+          <div class="food-item-desc">Smaller, very good, quieter than the big two. Great fallback if &#381;eljo has a queue.</div>
+          <a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Cevabdzinica+Mrkva+Sarajevo">Open in Maps &#8599;</a>
+        </div>
+      </div>
+
+      <div class="food-cat">
+        <div class="food-cat-header">&#129386; Burek &amp; pies</div>
+        <div class="food-item">
+          <div class="food-item-top"><span class="food-item-name">Buregd&#382;inica Bosna</span><span class="food-item-meta">$ &middot; cash</span></div>
+          <div class="food-item-desc">Hole-in-the-wall legend. Burek (meat), sirnica (cheese), zeljanica (spinach), krompiru&#353;a (potato). Ask by weight.</div>
+          <span class="food-item-tag">Breakfast</span>
+          <a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Buregdzinica+Bosna+Sarajevo">Open in Maps &#8599;</a>
+        </div>
+        <div class="food-item">
+          <div class="food-item-top"><span class="food-item-name">Sa&#269; Buregd&#382;inica</span><span class="food-item-meta">$ &middot; cash</span></div>
+          <div class="food-item-desc">Baked under traditional sa&#269; iron bell. Crispier, more rustic take.</div>
+          <a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Sac+buregdzinica+Sarajevo">Open in Maps &#8599;</a>
+        </div>
+      </div>
+
+      <div class="food-cat">
+        <div class="food-cat-header">&#9749; Bosnian coffee</div>
+        <div class="food-item">
+          <div class="food-item-top"><span class="food-item-name">&#268;ajd&#382;inica D&#382;irlo</span><span class="food-item-meta">$ &middot; cash</span></div>
+          <div class="food-item-desc">Tiny candle-lit corner of Ba&#353;&#269;ar&#353;ija. The full ritual: copper fin&#273;an, sugar cube, rahat lokum.</div>
+          <span class="food-item-tag">Must</span>
+          <a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Cajdzinica+Dzirlo+Sarajevo">Open in Maps &#8599;</a>
+        </div>
+        <div class="food-item">
+          <div class="food-item-top"><span class="food-item-name">Ministry of &#262;ejf</span><span class="food-item-meta">$$ &middot; card</span></div>
+          <div class="food-item-desc">Modern specialty-coffee bar. Good if you want a flat white for a break from Bosnian coffee.</div>
+          <a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Ministry+of+Cejf+Sarajevo">Open in Maps &#8599;</a>
+        </div>
+      </div>
+
+      <div class="food-cat">
+        <div class="food-cat-header">&#127869;&#65039; Dinner &amp; Bosnian classics</div>
+        <div class="food-item">
+          <div class="food-item-top"><span class="food-item-name">Dveri</span><span class="food-item-meta">$$ &middot; cash</span></div>
+          <div class="food-item-desc">Tiny rustic room hung with dried peppers. Bosanski lonac (slow stew), dolma, sogan-dolma. Reserve.</div>
+          <span class="food-item-tag">Reserve</span>
+          <a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Dveri+restaurant+Sarajevo">Open in Maps &#8599;</a>
+        </div>
+        <div class="food-item">
+          <div class="food-item-top"><span class="food-item-name">4 Sobe Gospo&#273;e Safije</span><span class="food-item-meta">$$$ &middot; card</span></div>
+          <div class="food-item-desc">Modern-upscale Bosnian in a restored Austro-Hungarian villa. Date-night level.</div>
+          <span class="food-item-tag">Reserve</span>
+          <a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=4+Sobe+Gospodje+Safije+Sarajevo">Open in Maps &#8599;</a>
+        </div>
+        <div class="food-item">
+          <div class="food-item-top"><span class="food-item-name">Kibe Mahala</span><span class="food-item-meta">$$ &middot; card</span></div>
+          <div class="food-item-desc">Up the hill &mdash; traditional food with the best panoramic view in the city. Worth the taxi.</div>
+          <span class="food-item-tag">View</span>
+          <a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Kibe+Mahala+Sarajevo">Open in Maps &#8599;</a>
+        </div>
+      </div>
+
+      <div class="food-cat">
+        <div class="food-cat-header">&#127864; Rakija &amp; nightcap</div>
+        <div class="food-item">
+          <div class="food-item-top"><span class="food-item-name">Zlatna Ribica</span><span class="food-item-meta">$$ &middot; cash</span></div>
+          <div class="food-item-desc">Baroque-kitsch bar that doubles as a junk-shop museum. A Sarajevo rite of passage.</div>
+          <span class="food-item-tag">Must</span>
+          <a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Zlatna+Ribica+Sarajevo">Open in Maps &#8599;</a>
+        </div>
+        <div class="food-item">
+          <div class="food-item-top"><span class="food-item-name">Barhana</span><span class="food-item-meta">$$ &middot; card</span></div>
+          <div class="food-item-desc">House-distilled rakija flights in a courtyard &mdash; loncha, kru&#353;ka, &#353;ljiva. Good with cheese plate.</div>
+          <a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Barhana+Sarajevo">Open in Maps &#8599;</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOSTAR -->
+    <div class="food-col">
+      <div class="food-col-title">&#127479;&#127480; Mostar</div>
+
+      <div class="food-cat">
+        <div class="food-cat-header">&#127837; &#268;evapi &amp; lunch</div>
+        <div class="food-item">
+          <div class="food-item-top"><span class="food-item-name">&#268;evabd&#382;inica Tima-Irma</span><span class="food-item-meta">$ &middot; cash</span></div>
+          <div class="food-item-desc">The most famous &#269;evapi in Mostar. Generous portions, always a line &mdash; arrive off-peak.</div>
+          <span class="food-item-tag">Must</span>
+          <a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Tima+Irma+Mostar">Open in Maps &#8599;</a>
+        </div>
+        <div class="food-item">
+          <div class="food-item-top"><span class="food-item-name">Urban Grill</span><span class="food-item-meta">$$ &middot; card</span></div>
+          <div class="food-item-desc">Riverside terrace with a direct view of the Old Bridge. Touristy but the view is legit.</div>
+          <a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Urban+Grill+Mostar">Open in Maps &#8599;</a>
+        </div>
+      </div>
+
+      <div class="food-cat">
+        <div class="food-cat-header">&#127869;&#65039; Dinner with a view</div>
+        <div class="food-item">
+          <div class="food-item-top"><span class="food-item-name">Hindin Han</span><span class="food-item-meta">$$ &middot; card</span></div>
+          <div class="food-item-desc">Wooden terrace hanging over the Neretva. Grilled trout, lamb under sa&#269;. Best at sunset.</div>
+          <span class="food-item-tag">Sunset</span>
+          <a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Hindin+Han+Mostar">Open in Maps &#8599;</a>
+        </div>
+        <div class="food-item">
+          <div class="food-item-top"><span class="food-item-name">&#352;adrvan</span><span class="food-item-meta">$$ &middot; card</span></div>
+          <div class="food-item-desc">Classic Old Bazaar courtyard restaurant. Dolma, klepe, traditional platter &mdash; tourist-favourite for a reason.</div>
+          <a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Sadrvan+Mostar">Open in Maps &#8599;</a>
+        </div>
+      </div>
+
+      <div class="food-cat">
+        <div class="food-cat-header">&#9749; Coffee &amp; sweets</div>
+        <div class="food-item">
+          <div class="food-item-top"><span class="food-item-name">Caffe de Alma</span><span class="food-item-meta">$ &middot; card</span></div>
+          <div class="food-item-desc">Women-run specialty roastery. Excellent Bosnian coffee &middot; baklava &middot; tufahija (walnut-stuffed apple).</div>
+          <a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Caffe+de+Alma+Mostar">Open in Maps &#8599;</a>
+        </div>
+      </div>
+
+      <div class="food-cat">
+        <div class="food-cat-header">&#128161; Rules of thumb</div>
+        <div class="food-item">
+          <div class="food-item-desc" style="margin-top:0"><strong>$</strong> &lt; 10 KM &middot; <strong>$$</strong> 10&ndash;25 KM &middot; <strong>$$$</strong> 25+ KM per person. A &#269;evapi portion is usually 7&ndash;10 KM. Tap water is safe. Tip ~10%.</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -487,17 +960,56 @@ body {
 </div>
 
 <script>
-  const navLinks = document.querySelectorAll('.navbar a');
-  const anchors = ['top','sarajevo','friday','costs','tips']
+  // Section scroll-spy — day-level so the Sarajevo dropdown highlights correctly
+  const navLinks = document.querySelectorAll('.navbar a[href^="#"]');
+  const sectionIds = ['top','sarajevo','day-wed','day-thu','day-sat','day-sun','herzegovina','food','costs','tips'];
+  const anchors = sectionIds
     .map(id => ({ id, el: document.getElementById(id) }))
     .filter(s => s.el);
+  // Which section each top-level nav item represents (when the dropdown day isn't the active match)
+  const TOP_LEVEL_SECTIONS = {
+    '#top': ['top'],
+    '#day-wed': ['sarajevo','day-wed','day-thu','day-sat','day-sun'], // "Sarajevo" pill stays active for all Sarajevo days
+    '#herzegovina': ['herzegovina'],
+    '#food': ['food'],
+    '#costs': ['costs'],
+    '#tips': ['tips'],
+  };
   function updateNav() {
     let current = anchors[0].id;
-    anchors.forEach(s => { if (window.scrollY >= s.el.offsetTop - 60) current = s.id; });
-    navLinks.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+    anchors.forEach(s => { if (window.scrollY >= s.el.offsetTop - 70) current = s.id; });
+    navLinks.forEach(a => {
+      const href = a.getAttribute('href');
+      const inDropdown = a.closest('.nav-dropdown');
+      let isActive;
+      if (inDropdown) {
+        isActive = href === '#' + current;
+      } else {
+        const group = TOP_LEVEL_SECTIONS[href] || [href.slice(1)];
+        isActive = group.includes(current);
+      }
+      a.classList.toggle('active', isActive);
+    });
   }
   window.addEventListener('scroll', updateNav, { passive: true });
   updateNav();
+
+  // Dropdown caret toggle for touch devices + click-outside-to-close
+  document.querySelectorAll('.nav-item.has-dropdown').forEach(item => {
+    const caret = item.querySelector('.nav-caret');
+    if (!caret) return;
+    caret.addEventListener('click', (e) => {
+      e.preventDefault(); e.stopPropagation();
+      document.querySelectorAll('.nav-item.has-dropdown.open').forEach(el => { if (el !== item) el.classList.remove('open'); });
+      item.classList.toggle('open');
+    });
+    item.querySelectorAll('.nav-dropdown a').forEach(a => a.addEventListener('click', () => item.classList.remove('open')));
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.nav-item.has-dropdown')) {
+      document.querySelectorAll('.nav-item.has-dropdown.open').forEach(el => el.classList.remove('open'));
+    }
+  });
 </script>
 </body>
 </html>
