@@ -432,7 +432,7 @@ body {
 .fx-rate strong { color: var(--teal); font-variant-numeric: tabular-nums; }
 .fx-row { display: flex; align-items: center; gap: 10px; }
 .fx-field {
-  flex: 1; display: flex; align-items: center; gap: 8px;
+  flex: 1 1 0; min-width: 0; display: flex; align-items: center; gap: 8px;
   background: rgba(255,255,255,0.6);
   border: 0.5px solid var(--separator); border-radius: 10px; padding: 8px 12px;
   transition: border-color 120ms ease, box-shadow 120ms ease;
@@ -449,11 +449,27 @@ body {
 .fx-field input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 .fx-code { font-size: 12px; font-weight: 600; color: var(--label3); letter-spacing: 0.5px; }
 .fx-arrows { color: var(--label3); font-size: 16px; }
+.fx-atms { display: flex; gap: 8px; margin-top: 12px; }
+@media (max-width: 480px) { .fx-atms { flex-direction: column; } }
+.fx-atm-btn {
+  flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 9px 12px; border-radius: 10px;
+  background: var(--teal); color: #fff !important;
+  font-size: 13px; font-weight: 600; letter-spacing: 0.2px;
+  text-decoration: none; transition: background 120ms ease, transform 120ms ease;
+}
+.fx-atm-btn:hover { background: #086a8a; }
+.fx-atm-btn:active { transform: scale(0.98); }
 .fx-note { margin-top: 10px; font-size: 11px; color: var(--label3); line-height: 1.5; }
 .fx-note code { font-family: ui-monospace, monospace; background: rgba(0,0,0,0.05); padding: 1px 5px; border-radius: 4px; font-size: 10px; }
-@media (max-width: 480px) {
+@media (max-width: 520px) {
+  .fx-wrap { padding: 0 12px; }
+  .fx-card { padding: 12px 12px; }
   .fx-header { flex-direction: column; align-items: flex-start; gap: 4px; }
-  .fx-field input { font-size: 15px; }
+  .fx-row { flex-direction: column; align-items: stretch; gap: 8px; }
+  .fx-field { width: 100%; padding: 10px 12px; }
+  .fx-arrows { transform: rotate(90deg); align-self: center; font-size: 18px; }
+  .fx-field input { font-size: 16px; }
 }
 
 /* FLIGHTS */
@@ -733,6 +749,10 @@ body {
         <input id="fx-bam" type="number" inputmode="decimal" min="0" step="0.01" value="21.34" aria-label="Amount in BAM">
         <span class="fx-code">KM</span>
       </label>
+    </div>
+    <div class="fx-atms">
+      <a class="fx-atm-btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Bankomat+ATM+Sarajevo">&#127981; ATMs in Sarajevo &#8599;</a>
+      <a class="fx-atm-btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Bankomat+ATM+Mostar">&#127981; ATMs in Mostar &#8599;</a>
     </div>
     <div class="fx-note">Rate fixed in-page &mdash; BAM is pegged to EUR (1 EUR = 1.95583 KM). Update <code>FX_RATE</code> before the trip for accuracy.</div>
   </div>
