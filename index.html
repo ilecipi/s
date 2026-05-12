@@ -231,6 +231,8 @@ body {
   font-size: 18px; font-weight: 600; color: var(--label);
   line-height: 1.2; margin-bottom: 4px;
 }
+a.list-row-link { display: block; color: var(--teal); text-decoration: none; }
+a.list-row-link:hover { text-decoration: underline; }
 .list-row-desc { font-size: 13px; color: var(--label2); line-height: 1.55; }
 .list-row-tip {
   display: inline-flex; align-items: center; gap: 5px;
@@ -604,6 +606,8 @@ body {
 .food-item:last-child { border-bottom: none; }
 .food-item-top { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
 .food-item-name { font-size: 14px; font-weight: 600; color: var(--label); }
+.food-item-link { color: var(--teal); text-decoration: none; }
+.food-item-link:hover { text-decoration: underline; }
 .food-item-meta { font-size: 11px; color: var(--label3); flex-shrink: 0; }
 .food-item-desc { font-size: 12px; color: var(--label2); margin-top: 3px; line-height: 1.5; }
 .food-item-tag {
@@ -852,9 +856,9 @@ body {
       <div class="day-summary">A heavy but essential day. The siege told three ways: personal, underground, and from above.</div>
     </div>
     <div class="grouped-list attached">
-      <div class="list-row"><div class="list-row-time">11:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#127963;&#65039; War Childhood Museum</div><div class="list-row-desc">One of the most powerful museums in Europe. The siege told through 50 objects chosen by people who were children during the conflict &mdash; each with a personal testimony. Allow 90 min.</div><div class="list-row-tip">&#128161; Opens 11am &middot; Book at warchildhood.org</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=War+Childhood+Museum+Sarajevo">Open in Maps &#8599;</a></div></div>
-      <div class="list-row"><div class="list-row-time">15:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#128647; Tunnel of Salvation</div><div class="list-row-desc">The 800m tunnel dug under the airport runway in 1993 that kept the besieged city alive. Museum with original footage and artefacts. Entry ~20 KM.</div><div class="list-row-tip">&#128161; 20-min taxi from centre &middot; Cash only</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Sarajevo+Tunnel+of+Hope+Museum">Open in Maps &#8599;</a></div></div>
-      <div class="list-row"><div class="list-row-time">17:00</div><div class="list-row-divider"></div><div class="list-row-content"><div class="list-row-name">&#128673; Trebevi&#263; &mdash; Olympic Bobsled Track</div><div class="list-row-desc">Cable car up to 1,163m for panoramic views, then walk 200m to the abandoned 1984 Olympics bobsled track &mdash; covered in murals and graffiti. Eerie and unforgettable.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Trebevic+Cable+Car+Sarajevo">Open in Maps &#8599;</a></div></div>
+      <div class="list-row"><div class="list-row-time">11:00</div><div class="list-row-divider"></div><div class="list-row-content"><a class="list-row-name list-row-link" target="_blank" rel="noopener" href="https://warchildhood.org/visit/">&#127963;&#65039; War Childhood Museum &#8599;</a><div class="list-row-desc">One of the most powerful museums in Europe. The siege told through 50 objects chosen by people who were children during the conflict &mdash; each with a personal testimony. Allow 90 min.</div><div class="list-row-tip">&#128161; Opens 11am &middot; tickets at door, info at warchildhood.org</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=War+Childhood+Museum+Sarajevo">Open in Maps &#8599;</a></div></div>
+      <div class="list-row"><div class="list-row-time">15:00</div><div class="list-row-divider"></div><div class="list-row-content"><a class="list-row-name list-row-link" target="_blank" rel="noopener" href="https://sarajevo.travel/en/things-to-do/tunnel-of-hope-museum-tunel-spasa/183">&#128647; Tunnel of Salvation &#8599;</a><div class="list-row-desc">The 800m tunnel dug under the airport runway in 1993 that kept the besieged city alive. Museum with original footage and artefacts. Entry ~10 KM.</div><div class="list-row-tip">&#128161; 20-min taxi from centre &middot; Cash only</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Sarajevo+Tunnel+of+Hope+Museum">Open in Maps &#8599;</a></div></div>
+      <div class="list-row"><div class="list-row-time">17:00</div><div class="list-row-divider"></div><div class="list-row-content"><a class="list-row-name list-row-link" target="_blank" rel="noopener" href="https://www.zicara.ba/en/home">&#128673; Trebevi&#263; &mdash; Olympic Bobsled Track &#8599;</a><div class="list-row-desc">Cable car up to 1,163m for panoramic views, then walk 200m to the abandoned 1984 Olympics bobsled track &mdash; covered in murals and graffiti. Eerie and unforgettable.</div><a class="maps-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Trebevic+Cable+Car+Sarajevo">Open in Maps &#8599;</a></div></div>
     </div>
     <div class="map-wrap">
       <iframe src="https://www.google.com/maps/embed?pb=!1m34!1m12!1m3!1d11700!2d18.390!3d43.845!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m19!3e0!4m5!1s0x4758c8cbce7cebbf%3A0xf84cf46be4630eed!2sWar%20Childhood%20Museum%2C%20Sarajevo!3m2!1d43.8619!2d18.4284!4m5!1s0x4758c9f975860455%3A0xcee7af8d75d8e791!2sTunnel%20of%20Salvation%2C%20Sarajevo!3m2!1d43.8198!2d18.3373!4m5!1s0x4758c8e0c1000001%3A0x1!2sTrebevi%C4%87%20Cable%20Car%2C%20Sarajevo!3m2!1d43.852!2d18.441!5e0!3m2!1sen!2sba!4v1680000001000!5m2!1sen!2sba" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -1158,17 +1162,17 @@ body {
       <div class="food-cat">
         <div class="food-cat-header">&#127963;&#65039; Sights &amp; tickets</div>
         <div class="food-item">
-          <div class="food-item-top"><span class="food-item-name">War Childhood Museum</span><span class="food-item-meta">Sarajevo</span></div>
-          <div class="food-item-desc">Book online at warchildhood.org &mdash; small rooms, limited slots, Thursday afternoon fills fast.</div>
+          <div class="food-item-top"><a class="food-item-name food-item-link" target="_blank" rel="noopener" href="https://warchildhood.org/visit/">War Childhood Museum &#8599;</a><span class="food-item-meta">Sarajevo</span></div>
+          <div class="food-item-desc">Tickets at the door (12 KM), but check opening hours and book a guided tour at <strong>warchildhood.org</strong>. Small rooms, Thursday afternoon fills fast.</div>
           <span class="food-item-tag">Must</span>
         </div>
         <div class="food-item">
-          <div class="food-item-top"><span class="food-item-name">Tunnel of Salvation</span><span class="food-item-meta">Sarajevo</span></div>
-          <div class="food-item-desc">Walk-in usually works, but Saturday afternoons can queue. Pre-book if you want a guided slot.</div>
+          <div class="food-item-top"><a class="food-item-name food-item-link" target="_blank" rel="noopener" href="https://sarajevo.travel/en/things-to-do/tunnel-of-hope-museum-tunel-spasa/183">Tunnel of Salvation &#8599;</a><span class="food-item-meta">Sarajevo</span></div>
+          <div class="food-item-desc">Tickets at the entrance, cash only (~10 KM). No online booking &mdash; just turn up. Hours &amp; directions on sarajevo.travel.</div>
         </div>
         <div class="food-item">
-          <div class="food-item-top"><span class="food-item-name">Trebevi&#263; cable car</span><span class="food-item-meta">Sarajevo</span></div>
-          <div class="food-item-desc">Buy online to skip the line at the lower station, especially on a sunny Thursday.</div>
+          <div class="food-item-top"><a class="food-item-name food-item-link" target="_blank" rel="noopener" href="https://www.zicara.ba/en/home">Trebevi&#263; cable car &#8599;</a><span class="food-item-meta">Sarajevo</span></div>
+          <div class="food-item-desc">Roundtrip 30 KM (foreigners). Buy at the lower station or check seasonal hours &amp; closures at <strong>zicara.ba</strong>.</div>
         </div>
       </div>
 
